@@ -1,6 +1,6 @@
-import React, {ReactElement} from "react";
-import {IconEnum} from "@/utils/iconUtils/Icon.enum";
-import {IconsList} from "@/utils/iconUtils/IconUtils.utils";
+import React, {FC, ReactElement} from "react";
+import {IconEnum} from "@/components/CustomIcon/iconUtils/Icon.enum";
+import {IconsSVGList, remCalc} from "@/components/CustomIcon/iconUtils/IconUtils.utils";
 import Icon from "@ant-design/icons";
 
 import type {GetProps} from "antd";
@@ -11,18 +11,17 @@ interface CustomIconProps extends CustomIconComponentProps {
 	iconColor?: string;
 }
 
-export const CustomIcon = (props: Partial<CustomIconProps>) => {
+export const CustomIcon: FC<CustomIconProps> = (props: Partial<CustomIconProps>): ReactElement => {
 	const iconHeight: string = props.height ? remCalc(props.height) : "1rem";
 	const iconWidth: string = props.width ? remCalc(props.width) : "1rem";
 	const iconColor: string = props.iconColor || "black";
 
-	const icon: ReactElement = IconsList.get(props.icon!)!(iconHeight, iconWidth, iconColor);
+	const icon: ReactElement = (
+		<svg width={iconHeight} height={iconWidth} fill={iconColor}>
+			<title>Custom Icon</title>
+			<path d={IconsSVGList.get(props.icon!)} fill={iconColor}></path>
+		</svg>
+	);
 
 	return <Icon component={() => icon} />;
-};
-
-const remCalc = (px: number | string, base: number = 16) => {
-	const tempPx = `${px}`.replace("px", "");
-
-	return (1 / base) * parseInt(tempPx) + "rem";
 };

@@ -1,6 +1,6 @@
 import React, {FC, ReactElement} from "react";
+import {IconEnum} from "@/components/CustomIcon/iconUtils/Icon.enum";
 import {CustomInput} from "@/components/CustomInput/CustomInput.component";
-import {IconEnum} from "@/utils/iconUtils/Icon.enum";
 
 export const LoginPage: FC = (): ReactElement => {
 	return (

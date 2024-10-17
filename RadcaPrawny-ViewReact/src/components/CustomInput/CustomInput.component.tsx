@@ -1,6 +1,6 @@
 import {Input} from "antd";
 import React, {FC, HTMLInputTypeAttribute, ReactElement} from "react";
-import {IconEnum} from "@/utils/iconUtils/Icon.enum";
+import {IconEnum} from "@/components/CustomIcon/iconUtils/Icon.enum";
 import {STRING_UTILS} from "@/utils/stringUtils/StringUtils.utils";
 import {CustomIcon} from "../CustomIcon/CustomIcon.component";
 import {StyledCustomInput} from "./CustomInput.style";
