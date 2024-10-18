@@ -1,11 +1,21 @@
-import React, {FC, ReactElement} from "react";
-import {IconEnum} from "@/components/CustomIcon/iconUtils/Icon.enum";
-import {CustomInput} from "@/components/CustomInput/CustomInput.component";
+import React, {FC, ReactElement, useState} from "react";
+import {StyledLoginPage} from "./LoginPage.style";
+import {LoginPanel} from "./loginPanel/LoginPanel.component";
 
 export const LoginPage: FC = (): ReactElement => {
+	const [userEmail, setUserEmail] = useState<string>("");
+	const [userPassword, setUserPassword] = useState<string>("");
+
 	return (
-		<>
-			<CustomInput label="Email" inputType="email" icon={IconEnum.CLOSED_ENVELOPE} />
-		</>
+		<StyledLoginPage>
+			<div className="login-page-box">
+				<LoginPanel
+					userEmail={userEmail}
+					setUserEmail={setUserEmail}
+					userPassword={userPassword}
+					setUserPassword={setUserPassword}
+				/>
+			</div>
+		</StyledLoginPage>
 	);
 };
