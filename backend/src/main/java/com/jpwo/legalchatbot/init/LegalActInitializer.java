@@ -26,6 +26,11 @@ public class LegalActInitializer implements CommandLineRunner {
         this.legalActTagRepository = legalActTagRepository;
     }
 
+
+    /* TODO Here python script will be launched, which scrapes the data and stores LegalAct objects (with textContent) in db.
+        the scraping should take place if the legal_acts table is in an empty state.
+        When the table is already populated with data, there is no need to run the full script again.
+    */
     @Override
     public void run(String... args) throws Exception {
 

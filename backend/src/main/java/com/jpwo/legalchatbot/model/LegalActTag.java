@@ -1,5 +1,6 @@
 package com.jpwo.legalchatbot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jpwo.legalchatbot.model.ids.LegalActTagId;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Entity
 public class LegalActTag {
     @EmbeddedId
+    @JsonIgnore
     private LegalActTagId id;
 
     public LegalActTag(LegalAct legalAct, Tag tag, Date addedAt) {
@@ -25,6 +27,7 @@ public class LegalActTag {
     @ManyToOne
     @MapsId("legalActId")
     @JoinColumn(name = "legal_act_id")
+    @JsonIgnore
     private LegalAct legalAct;
 
     @ManyToOne
