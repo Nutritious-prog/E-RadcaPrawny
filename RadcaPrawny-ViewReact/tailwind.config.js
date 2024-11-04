@@ -2,11 +2,6 @@ module.exports = {
 	darkMode: ["class"],
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
-		extend: {
-			inset: {
-				"-4.5": "-4.5rem",
-			},
-		},
 		colors: {
 			TRANSPARENT: "transparent",
 			MAIN_BACKGROUND: "#F6F6F6",

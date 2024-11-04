@@ -12,6 +12,7 @@ interface CustomButtonProps {
 	buttonColorOnHover?: string;
 	labelColor?: string;
 	borderColor?: string;
+	fontBold?: boolean;
 	disabled?: boolean;
 	hidden?: boolean;
 	variant?: ButtonVariantType;
@@ -25,6 +26,7 @@ export const CustomButton: FC<CustomButtonProps> = ({
 	buttonColorOnHover = COLORS.BLACK,
 	labelColor = COLORS.WHITE,
 	borderColor = COLORS.BLACK,
+	fontBold = false,
 	disabled = false,
 	hidden = false,
 	variant = "text",
@@ -35,7 +37,8 @@ export const CustomButton: FC<CustomButtonProps> = ({
 			buttonColor={buttonColor}
 			buttonColorOnHover={buttonColorOnHover}
 			labelColor={labelColor}
-			borderColor={borderColor}>
+			borderColor={borderColor}
+			fontBold={fontBold}>
 			<Button onClick={onClick} disabled={disabled} hidden={hidden} variant={variant}>
 				{label}
 			</Button>

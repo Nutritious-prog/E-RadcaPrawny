@@ -5,12 +5,14 @@ interface StyledCustomButtonProps {
 	buttonColorOnHover: string;
 	labelColor: string;
 	borderColor: string;
+	fontBold: boolean;
 }
 
 export const StyledCustomButton = styled.div<StyledCustomButtonProps>`
 	.ant-btn {
 		width: 100%;
 		padding: 1.25rem;
+		font-weight: ${(props: StyledCustomButtonProps): string => (props.fontBold ? "bold" : "normal")};
 		background-color: ${(props: StyledCustomButtonProps): string => props.buttonColor};
 		color: ${(props: StyledCustomButtonProps): string => props.labelColor};
 		border-color: ${(props: StyledCustomButtonProps): string => props.borderColor};
