@@ -35,12 +35,13 @@ export const StyledLoginPage = styled.div`
 		display: flex;
 		margin: auto;
 		opacity: 0.7;
-		width: 90%;
-		height: 80%;
+		width: 80%;
+		height: 90%;
 		z-index: 1;
 		background-color: ${COLORS.MAIN_BACKGROUND};
 		box-shadow: 0 0.3125rem 0.625rem rgba(0, 0, 0, 0.1);
-		border-radius: 2.5rem;
+		border-radius: 0.5rem;
+		padding: 1.5rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;

@@ -2,12 +2,18 @@ module.exports = {
 	darkMode: ["class"],
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
+		extend: {
+			inset: {
+				"-4.5": "-4.5rem",
+			},
+		},
 		colors: {
 			TRANSPARENT: "transparent",
 			MAIN_BACKGROUND: "#F6F6F6",
 			BLACK: "#000000",
-			TURQUOISE: "#8BE0C2",
-			DARK_TURQUOISE: "#00AB83",
+			VERY_DARK_BLUE: "#17252A",
+			TURQUOISE: "#3AAFA9",
+			DARK_TURQUOISE: "#2B7A78",
 		},
 		fontSize: {
 			sm: "0.8rem",

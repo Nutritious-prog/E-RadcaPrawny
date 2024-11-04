@@ -2,8 +2,12 @@
 export const COLORS = {
     TRANSPARENT: 'transparent',
     MAIN_BACKGROUND: '#F6F6F6',
+    PLACEHOLDER: '#BFBFBF',
+    INPUT_BORDER: '#d9d9d9',
+
+    VERY_DARK_BLUE: '#17252A',
     BLACK: '#000000',
     WHITE: '#FFFFFF',
-    TURQUOISE: '#8BE0C2',
-    DARK_TURQUOISE: '#00AB83',
+    TURQUOISE: '#3AAFA9',
+    DARK_TURQUOISE: '#2B7A78',
 }

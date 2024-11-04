@@ -15,7 +15,7 @@ export const StyledCustomInput = styled.div`
 		position: absolute;
 		top: -0.25rem;
 		left: 0.625rem;
-		font-size: 0.7rem;
+		font-size: 0.9rem;
 		z-index: 9;
 		width: fit-content;
 		padding: 0 0.25rem;
@@ -25,5 +25,7 @@ export const StyledCustomInput = styled.div`
 
 	.ant-input-affix-wrapper {
 		width: 100%;
+		height: 100%;
+		color: ${COLORS.BLACK};
 	}
 `;
