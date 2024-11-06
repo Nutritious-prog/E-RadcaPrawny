@@ -10,7 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
+import java.util.Objects;
 
 @Component
 public class LegalActInitializer implements CommandLineRunner {
@@ -19,6 +26,8 @@ public class LegalActInitializer implements CommandLineRunner {
     private final TagRepository tagRepository;
     private final LegalActTagRepository legalActTagRepository;
 
+    private static final String TEXT_FILES_PATH = "D:\\E-RadcaPrawny\\scraper\\extracted_txt";
+
     @Autowired
     public LegalActInitializer(LegalActRepository legalActRepository, TagRepository tagRepository, LegalActTagRepository legalActTagRepository) {
         this.legalActRepository = legalActRepository;
@@ -26,48 +35,37 @@ public class LegalActInitializer implements CommandLineRunner {
         this.legalActTagRepository = legalActTagRepository;
     }
 
-
-    /* TODO Here python script will be launched, which scrapes the data and stores LegalAct objects (with textContent) in db.
-        the scraping should take place if the legal_acts table is in an empty state.
-        When the table is already populated with data, there is no need to run the full script again.
-    */
     @Override
     public void run(String... args) throws Exception {
+        if (legalActRepository.count() == 0) {
+            populateDatabaseFromExtractedTextFiles();
+        }
+    }
 
-        //TAGS
-        Tag educationTag = Tag.builder()
-                .name("EDUCATION")
-                .createdAt(new Date())
-                .build();
-        Tag criminalTag = Tag.builder()
-                .name("CRIMINAL")
-                .createdAt(new Date())
-                .build();
+    private void populateDatabaseFromExtractedTextFiles() {
+        File folder = new File(TEXT_FILES_PATH);
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
 
-        educationTag = tagRepository.save(educationTag);
-        criminalTag = tagRepository.save(criminalTag);
+        if (files != null) {
+            for (File file : files) {
+                try {
+                    String textContent = new String(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
+                    System.out.println("Content of " + file.getName() + ": " + textContent);
+                    textContent = textContent.replaceAll("\\s+", " ").trim();
+                    LegalAct legalAct = LegalAct.builder()
+                            .title(file.getName().replace(".txt", ""))  // Use file name as title
+                            .textContent(textContent)
+                            .createdAt(new Date())
+                            .build();
 
-        //LEGAL ACTS
-        LegalAct educationLegalAct = LegalAct.builder()
-                .title("EDUCATION LEGAL ACT")
-                .textContent("LEGAL ACT CONTENT....")
-                .createdAt(new Date())
-                .build();
-
-        LegalAct criminalLegalAct = LegalAct.builder()
-                .title("CRIMINAL LEGAL ACT")
-                .textContent("CRIMINAL ACT CONTENT....")
-                .createdAt(new Date())
-                .build();
-
-        educationLegalAct = legalActRepository.save(educationLegalAct);
-        criminalLegalAct = legalActRepository.save(criminalLegalAct);
-
-        //LEGAL ACT TAGS
-        LegalActTag educationLegalActTag = new LegalActTag(educationLegalAct, educationTag, new Date());
-        LegalActTag criminalLegalActTag = new LegalActTag(criminalLegalAct, criminalTag, new Date());
-        legalActTagRepository.save(educationLegalActTag);
-        legalActTagRepository.save(criminalLegalActTag);
-
+                    legalActRepository.save(legalAct);
+                    System.out.println("Saved LegalAct for file: " + file.getName());
+                } catch (IOException e) {
+                    System.err.println("Failed to read file: " + file.getAbsolutePath());
+                }
+            }
+        } else {
+            System.err.println("No text files found in directory: " + TEXT_FILES_PATH);
+        }
     }
 }
