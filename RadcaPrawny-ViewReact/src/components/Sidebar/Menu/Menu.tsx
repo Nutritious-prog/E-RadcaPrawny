@@ -90,6 +90,7 @@ export const Menu: FC<MenuProps> = (props: MenuProps): ReactElement => {
                 title="Dodaj nowy dokument"
                 onCancel={() => setUploadVisible(false)}
                 footer={null}
+                centered={true}
             >
                 <Upload />
             </Modal>

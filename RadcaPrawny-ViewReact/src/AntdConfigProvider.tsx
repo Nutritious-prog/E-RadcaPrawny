@@ -34,10 +34,12 @@ export const AntdConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
                     Modal : {
                         fontFamily: "Baloo Paaji 2, serif",
                         titleFontSize: 20,
+                        titleLineHeight: 2.5,
                         borderRadiusLG: 0,
                         contentBg: `${COLORS.TURQUOISE}`,
                         headerBg: `${COLORS.TURQUOISE}`,
                         colorText: `${COLORS.VERY_DARK_BLUE}`,
+                        padding: 32,
                     }
                 },
             }}
