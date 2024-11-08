@@ -10,7 +10,6 @@ export const StyledHeader = styled.header`
     align-items: center;
     background-color: ${COLORS.WHITE};
     padding: 2rem;
-    margin-left: 32rem;
 
     .header-nav {
         width: 50%;
