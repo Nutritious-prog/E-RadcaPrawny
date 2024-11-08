@@ -7,7 +7,7 @@ export const COLORS = {
 
     VERY_DARK_BLUE: '#17252A',
     BLACK: '#000000',
-    WHITE: '#FFFFFF',
+    WHITE: '#FEFFFF',
     TURQUOISE: '#3AAFA9',
     DARK_TURQUOISE: '#2B7A78',
 }
