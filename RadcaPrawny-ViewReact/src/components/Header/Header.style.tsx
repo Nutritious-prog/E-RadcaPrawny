@@ -12,7 +12,7 @@ export const StyledHeader = styled.header`
     padding: 2rem;
 
     .header-nav {
-        width: 50%;
+        width: 110rem;
         font-family: Poppins, sans-serif;
         font-weight: 600;
         font-size: 20px;

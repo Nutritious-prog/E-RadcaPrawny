@@ -22,6 +22,11 @@ export const AntdConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
                         fontSize: 20,
                         iconSize: 18,
                         iconMarginInlineEnd: 14,
+                    },
+                    Dropdown: {
+                        fontFamily: "Baloo Paaji 2, serif",
+                        fontSize: 16,
+                        borderRadiusLG: 0,
                     }
                 },
             }}
