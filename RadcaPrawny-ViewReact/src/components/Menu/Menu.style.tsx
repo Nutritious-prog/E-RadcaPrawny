@@ -9,6 +9,7 @@ export const StyledMenu = styled.div`
 
     .ant-menu-inline .ant-menu-item, .ant-menu-submenu {
         width: 30rem;
+        font-weight: 500;
     }
 `;
 
