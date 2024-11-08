@@ -27,6 +27,17 @@ export const AntdConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
                         fontFamily: "Baloo Paaji 2, serif",
                         fontSize: 16,
                         borderRadiusLG: 0,
+                        borderRadiusSM: 0,
+                        controlItemBgHover: `${COLORS.TURQUOISE}`,
+                        
+                    },
+                    Modal : {
+                        fontFamily: "Baloo Paaji 2, serif",
+                        titleFontSize: 20,
+                        borderRadiusLG: 0,
+                        contentBg: `${COLORS.TURQUOISE}`,
+                        headerBg: `${COLORS.TURQUOISE}`,
+                        colorText: `${COLORS.VERY_DARK_BLUE}`,
                     }
                 },
             }}

@@ -6,7 +6,7 @@ import { Sidebar } from "components/Sidebar/Sidebar.component";
 export const DocumentEditor: FC = (): ReactElement => {
     return (
         <StyledDocumentEditor>
-			<Sidebar/>
+			<Sidebar type="documents"/>
             <Header />
         </StyledDocumentEditor>
     );
