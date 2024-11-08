@@ -1,5 +1,8 @@
 import React, {FC, ReactElement} from "react";
+import { StyledDocumentEditor } from "./DocumentEditor.style";
 
 export const DocumentEditor: FC = (): ReactElement => {
-	return <div>Document Editor</div>;
+	return <StyledDocumentEditor>
+		
+	</StyledDocumentEditor>;
 };
