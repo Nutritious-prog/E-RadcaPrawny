@@ -1,7 +1,7 @@
 import {COLORS} from "assets/colors";
 import styled from "styled-components";
 
-export const StyledLoginPage = styled.div`
+export const StyledAuthotizationPage = styled.div`
 	display: flex;
 	position: relative;
 	width: 100dvw;
@@ -31,7 +31,7 @@ export const StyledLoginPage = styled.div`
 		border-radius: 50%;
 	}
 
-	.login-page-box {
+	.authorization-page-box {
 		display: flex;
 		margin: auto;
 		opacity: 0.7;
@@ -46,5 +46,31 @@ export const StyledLoginPage = styled.div`
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.authorization-page-box-enter {
+		width: 0;
+		opacity: 0;
+		transition:
+			width 300ms ease-in-out,
+			opacity 150ms ease-in-out;
+	}
+
+	.authorization-page-box-enter-active {
+		opacity: 0.7;
+		width: 80%;
+	}
+
+	.authorization-page-box-exit {
+		width: 80%;
+		opacity: 0.7;
+		transition:
+			width 300ms ease-in-out,
+			opacity 150ms ease-in-out;
+	}
+
+	.authorization-page-box-exit-active {
+		width: 0;
+		opacity: 0;
 	}
 `;
