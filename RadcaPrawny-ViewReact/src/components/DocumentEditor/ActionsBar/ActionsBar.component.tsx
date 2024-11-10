@@ -41,6 +41,7 @@ export const ActionsBar: React.FC = () => {
                     buttonColor={`${COLORS.MAIN_BACKGROUND}`}
                     labelColor={`${COLORS.VERY_DARK_BLUE}`}
                     fontBold={true}
+                    className={"h-16"}
                 />
                 <CustomButton
                     onClick={handleSave}

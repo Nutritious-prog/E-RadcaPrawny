@@ -3,6 +3,8 @@ import { StyledDocumentEditor } from "./DocumentEditor.style";
 import { Header } from "components/Header/Header.component";
 import { Sidebar } from "components/Sidebar/Sidebar.component";
 import { ActionsBar } from "components/DocumentEditor/ActionsBar/ActionsBar.component";
+import { EditorView } from "components/DocumentEditor/EditorView/EditorView.component";
+import { TextTools } from "components/DocumentEditor/TextTools/TextTools.component";
 
 export const DocumentEditor: FC = (): ReactElement => {
     return (
@@ -15,6 +17,9 @@ export const DocumentEditor: FC = (): ReactElement => {
                     <Header />
                 </div>
                 <div className="w-full flex-grow flex justify-end h-full">
+                    <div className="w-4/5">
+                        <TextTools />
+                    </div>
                     <div className="w-1/5 h-full">
                         <ActionsBar />
                     </div>
