@@ -10,7 +10,7 @@ import {
     MinusOutlined,
 } from "@ant-design/icons";
 import { mockChatResponse, mockDocumentsResponse } from "./mockResponses";
-import { Upload } from "../Upload/Upload.component";
+import { Upload } from "../Modal/Upload/Upload.component";
 import { Modal } from "../Modal/Modal.component";
 
 export interface DocumentItem {

@@ -1,9 +1,7 @@
 import React from "react";
 import { StyledHeader } from "./Header.style";
-import { CustomIcon } from "components/CustomIcon/CustomIcon.component";
 import { Link } from "react-router-dom";
 import UserIcon from "../../assets/images/UserIcon.png";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "components/Header/Dropdown/Dropdown.component";
 
 export const Header: React.FC = () => {
