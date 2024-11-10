@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyledActionsBar } from "./ActionsBar.style";
 import { CustomButton } from "components/CustomButton/CustomButton.component";
 import { COLORS } from "assets/colors";
@@ -7,6 +7,12 @@ import { Tag } from "../Tag/Tag.component";
 import { TagOutlined } from "@ant-design/icons";
 
 export const ActionsBar: React.FC = () => {
+    const [selectedTags, setSelectedTags] = useState<string[]>(["Podatki"]);
+    const handleTagSelect = (label: string, checked: boolean) => {
+        const nextSelectedTags = checked ? [...selectedTags, label] : selectedTags.filter((tag) => tag !== label);
+        setSelectedTags(nextSelectedTags);
+    };
+
     const handleDownload = () => {
         console.log("Download");
     };
@@ -24,7 +30,7 @@ export const ActionsBar: React.FC = () => {
             <div className="flex flex-wrap">
                 {mockTags.map((tag, index) => (
                     <div key={index} className="w-1/2 p-2">
-                        <Tag label={tag.label} />
+                        <Tag label={tag.label} checked={selectedTags.includes(tag.label)} onChange={(checked) => handleTagSelect(tag.label, checked)}/>
                     </div>
                 ))}
             </div>

@@ -42,7 +42,11 @@ export const AntdConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
                         padding: 32,
                     },
                     Tag: {
-                        defaultColor: `${COLORS.WHITE}`,
+                        colorPrimary: `${COLORS.DARK_TURQUOISE}`,
+                        colorPrimaryActive: `${COLORS.TURQUOISE}`,
+                        colorPrimaryHover: `${COLORS.TURQUOISE}`,
+                        colorFillSecondary: `${COLORS.DARK_TURQUOISE}`,
+                        colorText: `${COLORS.WHITE}`,
                         fontFamily: "Baloo Paaji 2, serif",
                         fontSizeSM: 16,
                     }

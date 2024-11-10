@@ -11,4 +11,19 @@ export const StyledTag = styled.div`
         width: 12rem;
         text-align: center;
     }
+
+    .ant-tag-checkable {
+        background-color: ${COLORS.TURQUOISE};
+        color: ${COLORS.WHITE};
+    }
+
+    .ant-tag-checkable:hover {
+        background-color: ${COLORS.DARK_TURQUOISE};
+        color: ${COLORS.WHITE};
+    }
+
+    .ant-tag-checkable-checked {
+        background-color: ${COLORS.DARK_TURQUOISE};
+        color: ${COLORS.WHITE};
+    }
 `;

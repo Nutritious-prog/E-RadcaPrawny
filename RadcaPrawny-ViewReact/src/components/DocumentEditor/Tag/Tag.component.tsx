@@ -5,13 +5,15 @@ import { COLORS } from "assets/colors";
 
 interface TagProps {
     label: string;
+    checked: boolean;
+    onChange: (checked: boolean) => void;
 }
 
 export const Tag: React.FC<TagProps> = (props: TagProps): ReactElement => {
 
     return (
         <StyledTag>
-            <AntdTag color={`${COLORS.TURQUOISE}`} bordered={false}>{props.label}</AntdTag>
+            <AntdTag.CheckableTag checked={props.checked} onChange={props.onChange}>{props.label}</AntdTag.CheckableTag>
         </StyledTag>
     );
 };
