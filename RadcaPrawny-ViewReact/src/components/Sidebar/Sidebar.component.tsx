@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { StyledSidebar } from "./Sidebar.style";
-import { Menu } from "components/Sidebar/Menu/Menu";
+import { Menu } from "components/Sidebar/Menu/Menu.component";
 import Logo from "../../assets/images/Logo.png";
 import DocumentEditorImage from "../../assets/images/DocumentEditorImage.png";
 

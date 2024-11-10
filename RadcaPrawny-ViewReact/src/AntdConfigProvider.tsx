@@ -40,6 +40,11 @@ export const AntdConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
                         headerBg: `${COLORS.TURQUOISE}`,
                         colorText: `${COLORS.VERY_DARK_BLUE}`,
                         padding: 32,
+                    },
+                    Tag: {
+                        defaultColor: `${COLORS.WHITE}`,
+                        fontFamily: "Baloo Paaji 2, serif",
+                        fontSizeSM: 16,
                     }
                 },
             }}

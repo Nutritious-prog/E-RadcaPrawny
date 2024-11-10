@@ -14,8 +14,10 @@ export const DocumentEditor: FC = (): ReactElement => {
                 <div className="w-full">
                     <Header />
                 </div>
-                <div className="w-full flex-grow">
-                    <ActionsBar />
+                <div className="w-full flex-grow flex justify-end h-full">
+                    <div className="w-1/5 h-full">
+                        <ActionsBar />
+                    </div>
                 </div>
             </div>
         </StyledDocumentEditor>

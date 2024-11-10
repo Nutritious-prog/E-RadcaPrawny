@@ -15,7 +15,7 @@ export const StyledHeader = styled.header`
         width: 110rem;
         font-family: Poppins, sans-serif;
         font-weight: 600;
-        font-size: 20px;
+        font-size: 1.4rem;
         letter-spacing: 0.15em;
 
         a {

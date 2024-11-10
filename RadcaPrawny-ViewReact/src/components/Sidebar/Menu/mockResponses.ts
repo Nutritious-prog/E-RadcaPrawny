@@ -1,4 +1,4 @@
-import { ChatItem, DocumentItem } from "./Menu";
+import { ChatItem, DocumentItem } from "./Menu.component";
 
 export const mockDocumentsResponse: DocumentItem[] = [
     {

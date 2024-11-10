@@ -11,8 +11,6 @@ export const StyledSidebar = styled.div`
     padding: 2rem;
 
     .sidebar-logo {
-        font-family: Roboto Serif, serif;
-        font-size: 32px;
         color: ${COLORS.WHITE};
         display: flex;
         justify-content: center;
