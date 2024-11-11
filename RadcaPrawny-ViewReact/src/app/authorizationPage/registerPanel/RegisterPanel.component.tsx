@@ -72,8 +72,7 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 				</div>
 				<img className="text-BLACK" src={RegisterSecondPanelImage} alt="RegisterSecondPanelImage" />
 				<div className="flex flex-col w-7/12 text-bg mx-auto items-center text-center font-semibold">
-					<div>{`Masz już konto?`}</div>
-					<div>{`Zaloguj się, aby rozpocząć pracę.`}</div>
+					<div>{`Masz już konto? Zaloguj się, aby rozpocząć pracę.`}</div>
 				</div>
 				<CustomButton
 					buttonColor={COLORS.TRANSPARENT}
