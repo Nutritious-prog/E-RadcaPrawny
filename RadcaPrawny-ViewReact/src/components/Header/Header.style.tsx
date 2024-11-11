@@ -2,7 +2,6 @@ import { COLORS } from "assets/colors";
 import { styled } from "styled-components";
 
 export const StyledHeader = styled.header`
-    // width: 100vw;
     height: 10vh;
     display: flex;
     flex-direction: row;
@@ -12,7 +11,7 @@ export const StyledHeader = styled.header`
     padding: 2rem;
 
     .header-nav {
-        width: 110rem;
+        width: 100rem;
         font-family: Poppins, sans-serif;
         font-weight: 600;
         font-size: 1.4rem;

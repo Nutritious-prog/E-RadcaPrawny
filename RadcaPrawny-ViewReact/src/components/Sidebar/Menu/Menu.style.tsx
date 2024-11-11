@@ -11,5 +11,15 @@ export const StyledMenu = styled.div`
         width: 30rem;
         font-weight: 500;
     }
+
+    .ant-menu-title-content {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 30rem;
+        position: relative;
+        mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    }
 `;
 
