@@ -1,5 +1,6 @@
 package com.jpwo.legalchatbot.controller;
 
+import com.jpwo.legalchatbot.exception.UserNotFoundException;
 import com.jpwo.legalchatbot.model.ApiResponse;
 import com.jpwo.legalchatbot.model.dto.LoginRequestDTO;
 import com.jpwo.legalchatbot.model.dto.LoginResponseDTO;
@@ -14,16 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/v1/auth")
@@ -115,4 +114,17 @@ public class AuthController {
             return new ResponseEntity<>(new ApiResponse<>(false, null, "Error creating user"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(value = "/users/{id}")
+    public ResponseEntity<ApiResponse<?>> deleteUser(HttpServletRequest request, @PathVariable("id") Long id) throws UserNotFoundException {
+
+        User toDelete = userService.findById(id).orElseThrow(()-> new UserNotFoundException("User not found"));
+        userService.deleteUser(toDelete);
+        ApiResponse<?> apiResponse = new ApiResponse<>(true, null, "User deleted successfully");
+        return ResponseEntity.ok(apiResponse);
+
+
+    }
+
 }

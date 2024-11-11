@@ -1,5 +1,7 @@
 package com.jpwo.legalchatbot.error.handling;
 
+import com.jpwo.legalchatbot.exception.DbObjectNotFoundException;
+import com.jpwo.legalchatbot.exception.UserNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,32 @@ public class ResponseErrorHandler extends ResponseEntityExceptionHandler {
 
         // Return a ResponseEntity with the custom error response
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(DbObjectNotFoundException.class)
+    protected ResponseEntity<Object> handleDbObjectNotFoundException(DbObjectNotFoundException ex, WebRequest request) {
+
+
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setLocalDateTime(LocalDateTime.now());
+        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        errorResponse.setErrors(List.of(ex.getMessage()));
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    protected ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+
+
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setLocalDateTime(LocalDateTime.now());
+        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        errorResponse.setErrors(List.of(ex.getMessage()));
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @Override

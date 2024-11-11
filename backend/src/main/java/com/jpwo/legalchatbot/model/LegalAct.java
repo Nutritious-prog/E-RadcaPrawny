@@ -36,7 +36,7 @@ public class LegalAct {
     @Column(name = "text_content", columnDefinition = "TEXT")
     private String textContent;
 
-    @OneToMany(mappedBy = "legalAct", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "legalAct", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<LegalActTag> legalActTags = new HashSet<>();
 
@@ -46,4 +46,14 @@ public class LegalAct {
 
     @Column(name = "modified_at")
     private Date modifiedAt;
+
+    public void updateTo(LegalAct legalAct) {
+        this.title = legalAct.getTitle();
+        this.textContent = legalAct.getTextContent();
+        this.legalActTags = legalAct.getLegalActTags();
+        this.modifiedAt = new Date();
+
+
+
+    }
 }
