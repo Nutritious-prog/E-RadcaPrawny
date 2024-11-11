@@ -12,6 +12,6 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Baloo Paaji 2', sans-serif;
-    font-size: 1rem;
+    font-size: 1rem;;
   }
 `;

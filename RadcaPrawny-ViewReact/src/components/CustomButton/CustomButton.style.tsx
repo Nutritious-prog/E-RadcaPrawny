@@ -11,8 +11,11 @@ interface StyledCustomButtonProps {
 export const StyledCustomButton = styled.div<StyledCustomButtonProps>`
 	.ant-btn {
 		width: 100%;
+		height: 100%;
 		padding: 1.25rem;
+		font-size: 1rem;
 		font-weight: ${(props: StyledCustomButtonProps): string => (props.fontBold ? "bold" : "normal")};
+		font-family: "Poppins", sans-serif;
 		background-color: ${(props: StyledCustomButtonProps): string => props.buttonColor};
 		color: ${(props: StyledCustomButtonProps): string => props.labelColor};
 		border-color: ${(props: StyledCustomButtonProps): string => props.borderColor};
