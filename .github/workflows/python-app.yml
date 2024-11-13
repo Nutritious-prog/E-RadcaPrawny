@@ -1,0 +1,63 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Test PDF Download and Extraction
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-pdf-extraction:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pymupdf
+
+      - name: Run the download and extraction script
+        run: python download_and_extract.py
+
+      - name: Verify PDF was downloaded
+        run: |
+          if [ ! -f "downloaded_pdfs/1578.pdf" ]; then
+            echo "PDF file not found!"
+            exit 1
+          fi
+          echo "PDF downloaded successfully."
+
+      - name: Compare extracted text with PDF content
+        run: |
+          python -c "
+          import fitz
+          pdf_file = 'downloaded_pdfs/1578.pdf'
+          txt_file = 'extracted_txt/1578.txt'
+
+          with fitz.open(pdf_file) as pdf:
+              pdf_text = ''.join([page.get_text() for page in pdf])
+          
+          with open(txt_file, 'r', encoding='utf-8') as f:
+              extracted_text = f.read()
+          
+          if pdf_text.strip() != extracted_text.strip():
+              print('Text mismatch between PDF and extracted text!')
+              exit(1)
+          else:
+              print('Text matches between PDF and extracted text.')
+                    "
+
+
