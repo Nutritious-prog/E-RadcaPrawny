@@ -53,8 +53,19 @@ public class AuthController {
 
     @PostMapping(value = "/authenticate")
     public ResponseEntity<ApiResponse<LoginResponseDTO>> createAuthenticationToken(HttpServletRequest request, @RequestBody LoginRequestDTO loginRequest) throws Exception {
+        if (loginRequest.getEmail() == null || loginRequest.getEmail().isEmpty() ||
+                loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {
+            return new ResponseEntity<>(new ApiResponse<>(false, null, "Invalid input data"), HttpStatus.BAD_REQUEST);
+        }
+
         String password = loginRequest.getPassword();
-        authenticate(loginRequest.getEmail(), password);
+        try {
+            authenticate(loginRequest.getEmail(), password);
+        } catch (BadCredentialsException e) {
+            return new ResponseEntity<>(new ApiResponse<>(false, null, "INVALID_CREDENTIALS"), HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse<>(false, null, "Authentication failed"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         final User user = (User) userDetailsService
                 .loadUserByUsername(loginRequest.getEmail());
         final String token = jwtTokenManager.generateToken(user);
