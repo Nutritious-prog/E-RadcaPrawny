@@ -368,4 +368,5 @@ public class LegalActServiceTest {
         });
         assertEquals("Legal Act Tag not found", exception.getMessage());
     }
+
 }

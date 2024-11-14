@@ -77,6 +77,11 @@ public class LegalActController {
 
     @PutMapping(value = "/{id}/content")
     public ResponseEntity<ApiResponse<LegalAct>> updateLegalActContent(@PathVariable("id") Long id, @RequestBody LegalActContentDTO legalActContentDTO) throws DbObjectNotFoundException {
+        if (legalActContentDTO == null || legalActContentDTO.getContent() == null) {
+            ApiResponse<LegalAct> errorResponse = new ApiResponse<>(false, null, "Content cannot be null");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+
         LegalAct toUpdate = legalActService.getLegalAct(id).orElseThrow(() -> new DbObjectNotFoundException("Legal act not found"));
 
         toUpdate.setTextContent(legalActContentDTO.getContent());
