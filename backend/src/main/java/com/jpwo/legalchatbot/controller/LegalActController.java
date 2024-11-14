@@ -1,6 +1,7 @@
 package com.jpwo.legalchatbot.controller;
 
 import com.jpwo.legalchatbot.exception.DbObjectNotFoundException;
+import com.jpwo.legalchatbot.exception.TagCreationException;
 import com.jpwo.legalchatbot.model.ApiResponse;
 import com.jpwo.legalchatbot.model.LegalAct;
 import com.jpwo.legalchatbot.model.dto.LegalActContentDTO;
@@ -37,7 +38,7 @@ public class LegalActController {
 
 
     @PostMapping(value = "/{id}/tags")
-    public ResponseEntity<ApiResponse<LegalAct>> addTagToLegalAct(@PathVariable("id") Long id, @RequestBody TagDTO tag) throws DbObjectNotFoundException {
+    public ResponseEntity<ApiResponse<LegalAct>> addTagToLegalAct(@PathVariable("id") Long id, @RequestBody TagDTO tag) throws DbObjectNotFoundException, TagCreationException {
 
         LegalAct updatedLegalAct = legalActService.addTagToLegalAct(id, tag);
         ApiResponse<LegalAct> apiResponse = new ApiResponse<>(true, updatedLegalAct, String.format("Tag: %s added to Legal Act successfully", tag.getName()));
@@ -47,7 +48,7 @@ public class LegalActController {
     }
 
     @PostMapping(value = "/{id}/tags/multiple")
-    public ResponseEntity<ApiResponse<LegalAct>> addMultipleTagsToLegalAct(@PathVariable("id") Long id, @RequestBody List<TagDTO> tags) throws DbObjectNotFoundException {
+    public ResponseEntity<ApiResponse<LegalAct>> addMultipleTagsToLegalAct(@PathVariable("id") Long id, @RequestBody List<TagDTO> tags) throws DbObjectNotFoundException, TagCreationException {
         LegalAct updatedLegalAct = legalActService.addMultipleTagsToLegalAct(id, tags);
         ApiResponse<LegalAct> apiResponse = new ApiResponse<>(true, updatedLegalAct, String.format("All %d tags added to Legal Act successfully", tags.size()));
         return ResponseEntity.ok(apiResponse);

@@ -1,6 +1,7 @@
 package com.jpwo.legalchatbot.service;
 
 
+import com.jpwo.legalchatbot.exception.TagCreationException;
 import com.jpwo.legalchatbot.model.Tag;
 import com.jpwo.legalchatbot.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,17 @@ public class TagService {
 
     }
 
-    public Tag createTag(final String name) {
+    public Tag createTag(final String name) throws TagCreationException {
+        if (name == null) {
+            throw new TagCreationException("Tag name cannot be null");
+        }
 
-        Tag tag = Tag.builder().name(name).createdAt(new Date()).build();
-        return tagRepository.save(tag);
-
+        try {
+            Tag tag = Tag.builder().name(name).createdAt(new Date()).build();
+            return tagRepository.save(tag);
+        } catch (Exception e) {
+            throw new TagCreationException("Failed to create tag:" + e.getMessage());
+        }
     }
 
     public Tag saveTag(Tag toUpdate) {

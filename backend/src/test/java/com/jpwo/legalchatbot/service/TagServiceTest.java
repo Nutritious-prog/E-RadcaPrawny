@@ -1,37 +1,34 @@
-package com.jpwo.legalchatbot.controller;
+package com.jpwo.legalchatbot.service;
+import com.jpwo.legalchatbot.exception.TagCreationException;
 import com.jpwo.legalchatbot.model.Tag;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import com.jpwo.legalchatbot.repository.TagRepository;
-import com.jpwo.legalchatbot.service.TagService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class TagControllerTest {
-
-    private TagService tagService;
+class TagServiceTest {
 
     @Mock
     private TagRepository tagRepository;
 
     private AutoCloseable autoCloseable;
+    private TagService tagService;
 
     @BeforeEach
     void setUp() {
-        tagService = new TagService(tagRepository);
         autoCloseable = MockitoAnnotations.openMocks(this);
+        tagService = new TagService(tagRepository);
     }
 
     @AfterEach
@@ -40,7 +37,7 @@ class TagControllerTest {
     }
 
     @Test
-    void createTagSuccessfully() {
+    void createTagSuccessfully() throws TagCreationException {
         // given
         String tagName = "tagName";
         Tag expectedTag = Tag.builder()
@@ -49,11 +46,10 @@ class TagControllerTest {
                 .build();
         // when
         when(tagRepository.save(any(Tag.class))).thenReturn(expectedTag);
-        System.out.println(expectedTag);
         // then
         Tag result = tagService.createTag(tagName);
-        System.out.println(result);
-        //assertNotNull(result);
+
+        assertNotNull(result);
         assertEquals(expectedTag.getName(), result.getName());
         assertEquals(expectedTag.getCreatedAt(), result.getCreatedAt());
 
@@ -61,4 +57,31 @@ class TagControllerTest {
 
     }
 
+    @Test
+    void createTagWithNullNameShouldThrowTagCreationException() {
+        // given
+        String tagName = null;
+
+        // when then:  TagCreationException
+        TagCreationException exception = assertThrows(TagCreationException.class, () -> {
+            tagService.createTag(tagName);
+        });
+
+        assertEquals("Tag name cannot be null", exception.getMessage());
+        verify(tagRepository, never()).save(any(Tag.class));
+    }
+
+    @Test
+    void createTagUnsuccessfully() {
+        // given
+        String tagName = "tagName";
+        doThrow(new RuntimeException("Database error")).when(tagRepository).save(any(Tag.class));
+
+        // when then: TagCreationException
+        assertThrows(TagCreationException.class, () -> {
+            tagService.createTag(tagName);
+        });
+
+        verify(tagRepository, times(1)).save(any(Tag.class));
+    }
 }
