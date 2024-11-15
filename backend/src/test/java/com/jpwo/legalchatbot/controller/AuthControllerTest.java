@@ -1,5 +1,6 @@
 package com.jpwo.legalchatbot.controller;
 
+import com.jpwo.legalchatbot.exception.UserNotFoundException;
 import com.jpwo.legalchatbot.model.ApiResponse;
 import com.jpwo.legalchatbot.model.dto.LoginRequestDTO;
 import com.jpwo.legalchatbot.model.dto.LoginResponseDTO;
@@ -25,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -183,6 +185,52 @@ class AuthControllerTest {
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody().getMessage()).isEqualTo("Invalid input data");
+    }
+
+    @Test
+    void deleteUser_SuccessfullyDeletesUser_ReturnsOk() throws Exception {
+        // Given
+        Long userId = 1L;
+
+        // Tworzymy użytkownika, który ma zostać usunięty
+        User existingUser = new User();
+        existingUser.setId(userId);
+        existingUser.setEmail("user@example.com");
+        existingUser.setEnabled(true);
+        existingUser.setRole(SystemRole.ROLE_USER);
+
+        // Ustawiamy mocki
+        when(userService.findById(userId)).thenReturn(java.util.Optional.of(existingUser));
+
+        // When
+        ResponseEntity<ApiResponse<?>> response = authController.deleteUser(null, userId);
+
+        // Then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().getMessage()).isEqualTo("User deleted successfully");
+
+        // Weryfikujemy, że userService.deleteUser() zostało wywołane z odpowiednim użytkownikiem
+        verify(userService, times(1)).deleteUser(existingUser);
+    }
+
+    @Test
+    void deleteUser_UserNotFound_ThrowsUserNotFoundException() {
+        // Given
+        Long userId = 1L;
+
+        // Mockowanie, że użytkownik nie istnieje
+        when(userService.findById(userId)).thenReturn(java.util.Optional.empty());
+
+        // When - sprawdzamy, czy wyjątek jest rzucany
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> {
+            authController.deleteUser(null, userId);
+        });
+
+        // Then - upewniamy się, że wyjątek zawiera odpowiednią wiadomość
+        assertThat(exception.getMessage()).isEqualTo("User not found");
+
+        // Weryfikacja, że userService.deleteUser() nie zostało wywołane
+        verify(userService, times(0)).deleteUser(any());
     }
 
 }
