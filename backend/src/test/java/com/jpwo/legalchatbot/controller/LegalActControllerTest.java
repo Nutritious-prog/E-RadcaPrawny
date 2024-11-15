@@ -39,11 +39,11 @@ class LegalActControllerTest {
     void updateLegalActContent_ShouldUpdateContentAndReturnUpdatedLegalAct() throws DbObjectNotFoundException {
         // given
         Long legalActId = 1L;
-        LegalActContentDTO legalActContentDTO = new LegalActContentDTO("content");
+        LegalActContentDTO legalActContentDTO = new LegalActContentDTO("new content");
 
         LegalAct existingLegalAct = new LegalAct();
         existingLegalAct.setId(legalActId);
-        existingLegalAct.setTextContent("mew content");
+        existingLegalAct.setTextContent("content");
         Date originalModifiedAt = new Date();
         existingLegalAct.setModifiedAt(originalModifiedAt);
 
@@ -57,10 +57,10 @@ class LegalActControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertTrue(response.getBody().isSuccess());
-        assertEquals("content", response.getBody().getResponse().getTextContent());
+        assertEquals("new content", response.getBody().getResponse().getTextContent());
         assertEquals("Legal act content updated successfully", response.getBody().getMessage());
 
-        ArgumentCaptor<LegalAct> legalActCaptor = ArgumentCaptor.forClass(LegalAct.class);
+        ArgumentCaptor<LegalAct> legalActCaptor = ArgumentCaptor.forClass(LegalAct.class); // ArgumentCaptor is used to capture the argument passed to the saveLegalAct method
         verify(legalActService).saveLegalAct(legalActCaptor.capture());
         LegalAct savedLegalAct = legalActCaptor.getValue();
 
@@ -99,7 +99,7 @@ class LegalActControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("Content cannot be null", response.getBody().getMessage());
-        assertEquals(false, response.getBody().isSuccess());
+        assertFalse(response.getBody().isSuccess());
     }
 
     @Test
@@ -115,6 +115,6 @@ class LegalActControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("Content cannot be null", response.getBody().getMessage());
-        assertEquals(false, response.getBody().isSuccess());
+        assertFalse(response.getBody().isSuccess());
     }
 }
