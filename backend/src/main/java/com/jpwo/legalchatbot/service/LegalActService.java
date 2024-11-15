@@ -2,6 +2,7 @@ package com.jpwo.legalchatbot.service;
 
 
 import com.jpwo.legalchatbot.exception.DbObjectNotFoundException;
+import com.jpwo.legalchatbot.exception.TagCreationException;
 import com.jpwo.legalchatbot.model.LegalAct;
 import com.jpwo.legalchatbot.model.LegalActTag;
 import com.jpwo.legalchatbot.model.Tag;
@@ -41,7 +42,7 @@ public class LegalActService {
         return legalActRepository.save(legalAct);
     }
 
-    public LegalAct addTagToLegalAct(Long id, TagDTO tag) throws DbObjectNotFoundException {
+    public LegalAct addTagToLegalAct(Long id, TagDTO tag) throws DbObjectNotFoundException, TagCreationException {
         LegalAct toUpdate = getLegalAct(id).orElseThrow(() -> new DbObjectNotFoundException("Legal act not found"));
         Tag tagToAdd = tagService.getTag(tag.getName()).orElse(null);
 
@@ -60,7 +61,7 @@ public class LegalActService {
     }
 
 
-    public LegalAct addMultipleTagsToLegalAct(Long id, List<TagDTO> tags) throws DbObjectNotFoundException {
+    public LegalAct addMultipleTagsToLegalAct(Long id, List<TagDTO> tags) throws DbObjectNotFoundException, TagCreationException {
         LegalAct toUpdate = getLegalAct(id).orElseThrow(() -> new DbObjectNotFoundException("Legal act not found"));
         for (TagDTO tagDTO : tags) {
             Tag tagToAdd = tagService.getTag(tagDTO.getName()).orElse(null);
