@@ -61,8 +61,7 @@ class TagControllerTest {
     void updateTag_ShouldUpdateTagSuccessfully() throws DbObjectNotFoundException {
         // given
         Long tagId = 1L;
-        TagDTO tagDTO = new TagDTO();
-        tagDTO.setName("Updated Tag");
+        TagDTO tagDTO = new TagDTO("Updated Tag");
 
         Tag existingTag = new Tag(tagId, "Old Tag", null, new Date(), new Date());
 
@@ -100,8 +99,7 @@ class TagControllerTest {
     void updateTag_ShouldThrowDbObjectNotFoundException_WhenTagNotFound() {
         // given
         Long tagId = 1L;
-        TagDTO tagDTO = new TagDTO();
-        tagDTO.setName("Updated Tag");
+        TagDTO tagDTO = new TagDTO("Updated Tag");
 
         when(tagService.getTagById(tagId)).thenReturn(Optional.empty());
 
