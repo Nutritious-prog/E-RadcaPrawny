@@ -6,8 +6,7 @@ import { Dropdown } from "components/Header/Dropdown/Dropdown.component";
 import { Tooltip } from "components/DocumentEditor/ActionsBar/Tooltip/Tooltip.component";
 
 export const Header: React.FC = () => {
-    const isLoggedIn = true; //TODO: to be continued
-    const isEditor = true; //TODO: to be continued
+    const isLoggedIn = false; //TODO: to be continuedODO: to be continued
     return (
         <StyledHeader>
             <nav className="header-nav">
@@ -16,19 +15,11 @@ export const Header: React.FC = () => {
                         {isLoggedIn ? (
                             <Link to="/documents">EDYTOR</Link>
                         ) : (
-                            <Tooltip title="Musisz mieć uprawnienia edytora, żeby móc tu przejść">
-                                <span>EDYTOR</span>
-                            </Tooltip>
+                            <span className="disabled-link">EDYTOR</span>
                         )}
                     </li>
                     <li>
-                        {isEditor ? (
-                            <Tooltip title="Musisz mieć uprawnienia gościa, żeby móc tu przejść">
-                                <span>CHATBOT</span>
-                            </Tooltip>
-                        ) : (
-                            <Link to="/chat">CHATBOT</Link>
-                        )}
+                        <Link to="/chat">CHATBOT</Link>
                     </li>
                 </ul>
             </nav>

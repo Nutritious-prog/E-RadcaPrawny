@@ -47,6 +47,7 @@ const mapIcon = (iconName: string) => {
 
 interface MenuProps {
     type: "documents" | "chat";
+    className?: string;
 }
 
 export const Menu: FC<MenuProps> = (props: MenuProps): ReactElement => {
@@ -55,7 +56,7 @@ export const Menu: FC<MenuProps> = (props: MenuProps): ReactElement => {
     const [uploadVisible, setUploadVisible] = useState(false);
 
     const handleMenuClick = ({ key }: { key: string }) => {
-        if (isAdmin && key === "1") {
+        if (isAdmin && props.type === "documents" && key === "1") {
             setUploadVisible(true);
         }
     };
@@ -80,10 +81,12 @@ export const Menu: FC<MenuProps> = (props: MenuProps): ReactElement => {
         fetchData();
     }, [props.type]);
 
+    const filteredItems = isAdmin || props.type !== "documents" ? items : items.filter((item, index) => index !== 0);
+
     return (
         <>
-            <StyledMenu>
-                <AntdMenu items={items} mode="inline" onClick={handleMenuClick} />
+            <StyledMenu className={props.className}>
+                <AntdMenu items={filteredItems} mode="inline" onClick={handleMenuClick} />
             </StyledMenu>
 
             {isAdmin && (

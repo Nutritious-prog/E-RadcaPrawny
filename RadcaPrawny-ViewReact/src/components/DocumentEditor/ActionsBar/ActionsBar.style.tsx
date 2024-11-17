@@ -5,7 +5,7 @@ export const StyledActionsBar = styled.div`
     height: 100%;
     background-color: ${COLORS.MAIN_BACKGROUND};
     border: 1px solid ${COLORS.BORDER};
-    padding: 2rem;
+    padding: 1rem;
 
     .actions-text {
         font-weight: 500;

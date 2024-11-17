@@ -11,22 +11,22 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactElement => {
     return (
         <StyledSidebar>
-            <div className="flex flex-col justify-between space-y-48">
+            <div className="flex flex-col justify-between space-y-12">
                 <span className="sidebar-logo">
                     <img src={Logo} alt="Logo" height="200px" width="400px" />
                 </span>
-                <Menu type={props.type}/>
+                <Menu type={props.type} className="z-20"/>
                 {props.type === "documents" ? (
                     <img
                         src={DocumentEditorImage}
                         alt="Dokument wychodzący z laptopa"
-                        className="absolute bottom-0 left-0 mb-4 ml-4"
+                        className="absolute bottom-0 left-0 mb-4 ml-4 z-10"
                     />
                 ) : (
                     <img
                         src=""
                         alt="Chat"
-                        className="absolute bottom-0 left-0 mb-4 ml-4"
+                        className="absolute bottom-0 left-0 mb-4 ml-4 z-10"
                     />
                 )}
             </div>

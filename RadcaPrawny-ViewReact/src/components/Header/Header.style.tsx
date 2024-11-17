@@ -11,7 +11,7 @@ export const StyledHeader = styled.header`
     padding: 2rem;
 
     .header-nav {
-        width: 100rem;
+        width: 70rem;
         font-family: Poppins, sans-serif;
         font-weight: 600;
         font-size: 1.4rem;
@@ -27,6 +27,11 @@ export const StyledHeader = styled.header`
                 text-decoration-thickness: 3px;
                 text-underline-offset: 10px;
             }
+        }
+
+        .disabled-link {
+            color: ${COLORS.PLACEHOLDER};
+            cursor: not-allowed;
         }
     }
 `;

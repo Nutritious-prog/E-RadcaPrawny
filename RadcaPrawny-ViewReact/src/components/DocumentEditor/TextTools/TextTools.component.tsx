@@ -26,11 +26,11 @@ export const TextTools: React.FC<TextToolsProps> = (props: TextToolsProps) => {
 
     return (
         <StyledTextTools>
-            <span className="space-x-6 mr-96 -ml-24">
+            <span className="space-x-6  ">
                 <CustomIcon icon={faArrowTurnUp} transform={{ rotate: -90 }} />
                 <CustomIcon icon={faArrowTurnDown} transform={{ rotate: -90 }} />
             </span>
-            <span className="space-x-24 mr-96">
+            <span className="space-x-24 ">
                 <span className="space-x-6">
                     <CustomIcon icon={faBold} />
                     <CustomIcon icon={faItalic} />

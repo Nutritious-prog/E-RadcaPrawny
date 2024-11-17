@@ -9,21 +9,19 @@ import { TextTools } from "components/DocumentEditor/TextTools/TextTools.compone
 export const DocumentEditor: FC = (): ReactElement => {
     return (
         <StyledDocumentEditor>
-            <div className="w-1/5 h-full">
+            <div className="w-3/12 h-full">
                 <Sidebar type="documents" />
             </div>
-            <div className="w-4/5 flex flex-col">
-                <div className="w-full">
-                    <Header />
-                </div>
+            <div className="w-9/12 flex flex-col">
+                <Header />
                 <div className="w-full flex-grow flex justify-end h-full">
-                    <div className="w-4/5">
+                    <div className="flex-grow">
                         <TextTools />
                         <div className="flex-grow h-full">
                             <EditorView />
                         </div>
                     </div>
-                    <div className="w-1/5 h-full">
+                    <div className="w-3/12 h-full">
                         <ActionsBar />
                     </div>
                 </div>

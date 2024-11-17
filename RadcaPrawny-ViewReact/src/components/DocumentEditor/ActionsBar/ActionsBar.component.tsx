@@ -25,29 +25,32 @@ export const ActionsBar: React.FC = () => {
     return (
         <StyledActionsBar>
             <h2 className="actions-text mb-6">Dodatkowe opcje</h2>
-            <h2 className="actions-tag mb-2">
-                <TagOutlined className="mr-2" /> SŁOWA KLUCZOWE
-            </h2>
-            <div className="flex flex-wrap">
-                {mockTags.map((tag, index) => (
-                    <div key={index} className="w-1/2 p-2">
-                        <Tag
-                            label={tag.label}
-                            checked={selectedTags.includes(tag.label)}
-                            onChange={(checked) => handleTagSelect(tag.label, checked)}
-                            disabled={!isAdmin}
-                        />
+            {isAdmin && (
+                <>
+                    <h2 className="actions-tag mb-2">
+                        <TagOutlined className="mr-2" /> SŁOWA KLUCZOWE
+                    </h2>
+                    <div className="flex flex-wrap">
+                        {mockTags.map((tag, index) => (
+                            <div key={index} className="w-1/2 p-2">
+                                <Tag
+                                    label={tag.label}
+                                    checked={selectedTags.includes(tag.label)}
+                                    onChange={(checked) => handleTagSelect(tag.label, checked)}
+                                />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <div className="flex flex-col space-y-6 mt-12">
+                </>
+            )}
+            <div className="flex flex-col space-y-6 mt-12 justify-center items-center">
                 <CustomButton
                     onClick={handleDownload}
                     label="POBIERZ"
                     buttonColor={`${COLORS.MAIN_BACKGROUND}`}
                     labelColor={`${COLORS.VERY_DARK_BLUE}`}
                     fontBold={true}
-                    className={"h-16"}
+                    className={"h-16 w-72"}
                 />
                 <CustomButton
                     onClick={handleSave}
@@ -55,6 +58,7 @@ export const ActionsBar: React.FC = () => {
                     buttonColor={`${COLORS.VERY_DARK_BLUE}`}
                     labelColor={`${COLORS.WHITE}`}
                     fontBold={true}
+                    className={"h-16 w-72"}
                 />
             </div>
         </StyledActionsBar>

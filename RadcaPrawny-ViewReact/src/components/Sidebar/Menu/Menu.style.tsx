@@ -1,3 +1,4 @@
+import { COLORS } from "assets/colors";
 import { styled } from "styled-components";
 
 export const StyledMenu = styled.div`
@@ -7,8 +8,9 @@ export const StyledMenu = styled.div`
 
     .ant-menu-inline .ant-menu-item,
     .ant-menu-submenu {
-        width: 30rem;
+        width: 28rem;
         font-weight: 500;
+        background-color: ${COLORS.TURQUOISE};
     }
 
     .ant-menu-title-content {
