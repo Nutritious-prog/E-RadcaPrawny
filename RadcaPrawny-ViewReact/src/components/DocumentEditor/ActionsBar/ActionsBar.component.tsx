@@ -55,7 +55,7 @@ export const ActionsBar: React.FC = () => {
 					buttonColor={`${COLORS.MAIN_BACKGROUND}`}
 					labelColor={`${COLORS.VERY_DARK_BLUE}`}
 					fontBold={true}
-					className={"h-16 min-w-52 max-w-80"}
+					className={"h-16 min-w-52 w-11/12"}
 				/>
 				<CustomButton
 					onClick={handleSave}
@@ -63,7 +63,7 @@ export const ActionsBar: React.FC = () => {
 					buttonColor={`${COLORS.VERY_DARK_BLUE}`}
 					labelColor={`${COLORS.WHITE}`}
 					fontBold={true}
-					className={"h-16 min-w-52 max-w-80"}
+					className={"h-16 min-w-52 w-11/12"}
 				/>
 			</div>
 		</StyledActionsBar>

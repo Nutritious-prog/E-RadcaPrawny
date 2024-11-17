@@ -29,10 +29,12 @@ export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactEleme
 					<img
 						src={DocumentEditorImage}
 						alt="Dokument wychodzący z laptopa"
-						className="absolute bottom-0 left-0 m-auto z-2 w-3/12"
+						height="200px"
+						width="400px"
+						className="absolute bottom-0 left-0 m-auto z-2 w-3/12 h-3/12"
 					/>
 				) : (
-					<img src="" alt="Chat" className="absolute bottom-0 left-0 m-auto z-2 w-3/12" />
+					<img src="" alt="Chat" className="absolute bottom-0 left-0 m-auto z-2 w-3/12 h-3/12" />
 				)}
 			</div>
 		</StyledSidebar>
