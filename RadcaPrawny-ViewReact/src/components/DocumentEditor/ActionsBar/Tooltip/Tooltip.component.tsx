@@ -9,7 +9,7 @@ interface TooltipProps {
 
 export const Tooltip: React.FC<TooltipProps> = (props: TooltipProps): ReactElement => {
     return (
-        <AntdTooltip title={props.title} color={`${COLORS.VERY_DARK_BLUE}`} placement="top">
+        <AntdTooltip title={props.title} color={`${COLORS.VERY_DARK_BLUE}`}>
             {props.children}
         </AntdTooltip>
     );
