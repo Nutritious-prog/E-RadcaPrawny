@@ -1,0 +1,14 @@
+
+export const COLORS = {
+    TRANSPARENT: 'transparent',
+    MAIN_BACKGROUND: '#F6F6F6',
+    PLACEHOLDER: '#BFBFBF',
+    INPUT_BORDER: '#d9d9d9',
+    BORDER: '#E2E2E2',
+
+    VERY_DARK_BLUE: '#17252A',
+    BLACK: '#000000',
+    WHITE: '#FEFFFF',
+    TURQUOISE: '#3AAFA9',
+    DARK_TURQUOISE: '#2B7A78',
+}
