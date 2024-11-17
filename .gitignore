@@ -1,11 +1,43 @@
 # Compiled class file
 *.class
 
-# Log file
-*.log
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# Vite cache
+.vite/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Local environment variables
+.env.local
+.env.*.local
 
 # BlueJ files
 *.ctxt
+
+#Lint
+eslintrc.json
+.prettierrc
+.editorconfig
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
