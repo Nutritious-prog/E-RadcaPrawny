@@ -1,6 +1,12 @@
+import React from "react";
 import {
-FileTextOutlined, FormOutlined, MessageOutlined, MinusOutlined, PlusOutlined, SmileOutlined
-} from '@ant-design/icons';
+	FileTextOutlined,
+	FormOutlined,
+	MessageOutlined,
+	MinusOutlined,
+	PlusOutlined,
+	SmileOutlined,
+} from "@ant-design/icons";
 
 export interface MenuItem {
 	key: string;
@@ -12,9 +18,7 @@ export interface DocumentItem extends MenuItem {
 	children?: DocumentItem[];
 }
 
-
-export interface ChatItem extends MenuItem {
-}
+export interface ChatItem extends MenuItem {}
 
 export const mapIcon = (iconName: string) => {
 	switch (iconName) {

@@ -27,7 +27,7 @@ export const DocumentEditor: FC = (): ReactElement => {
 	}, []);
 
 	const fetchDocuments = async () => {
-		const data = mockDocumentsResponse.map((item) => ({
+		const data: DocumentItem[] = mockDocumentsResponse.map((item) => ({
 			...item,
 			icon: mapIcon(item.icon),
 			children:
