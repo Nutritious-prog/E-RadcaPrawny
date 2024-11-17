@@ -11,14 +11,15 @@ interface LoginPanelProps {
 	setUserEmail: (email: string) => void;
 	userPassword: string;
 	setUserPassword: (password: string) => void;
+	onChangePanelClickHandler: () => void;
 }
 
 export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactElement => {
 	const loginMainSection: ReactElement = (
 		<div className="flex flex-col w-1/2 h-full items-center m-auto">
-			<div className="flex w-full text-5xl px-12">{`LOGO`}</div>
+			<div className="flex w-full text-extra_lg px-12 mt-[2rem]">{`LOGO`}</div>
 			<div className="flex flex-col w-full h-full items-center gap-y-12 m-[-6rem] justify-center">
-				<div className="flex justify-center text-BLACK text-4xl font-extrabold text-justify font-extrabold">
+				<div className="flex justify-center text-BLACK text-xl font-extrabold text-justify font-roboto-serif font-extrabold">
 					{`Witamy!`}
 				</div>
 				<CustomInput
@@ -43,9 +44,9 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 					buttonColor={COLORS.BLACK}
 					labelColor={COLORS.WHITE}
 					borderColor={COLORS.BLACK}
-					className="w-64 text-3xl"
-					label="ZALOGUJ"
-					onClick={() => console.log("Zaloguj się")}
+					className="w-80 h-[3.25rem]"
+					label="ZALOGUJ SIĘ"
+					onClick={() => console.log("Login")}
 					fontBold
 				/>
 			</div>
@@ -54,20 +55,19 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 
 	const loginSecondSection: ReactElement = (
 		<div className="flex flex-col w-1/2 h-full text-BLACK bg-TURQUOISE rounded-lg items-center justify-center gap-y-8">
-			<div className="flex w-7/12 text-[1.25rem] mx-auto text-center font-semibold">
+			<div className="flex w-7/12 text-[1.125rem] mx-auto font-semibold">
 				{`Zarządzaj rozporządzeniami łatwiej niż kiedykolwiek!`}
 			</div>
-			<img className="w-1/2 text-BLACK" src={LoginSecondPanelImage} alt="LoginSecondPanelImage" />
-			<div className="flex flex-col w-7/12 text-[1.25rem] mx-auto items-center text-center font-semibold">
-				<div>{`Nie masz jeszcze konta?`}</div>
-				<div>{`Zarejestruj się i dołącz do naszej społeczności!`}</div>
+			<img className="text-BLACK" src={LoginSecondPanelImage} alt="LoginSecondPanelImage" />
+			<div className="flex flex-col w-7/12 text-[1.125rem] mx-auto font-semibold">
+				<div>{`Nie masz jeszcze konta? Zarejestruj się i dołącz do naszej społeczności!`}</div>
 			</div>
 			<CustomButton
 				buttonColor={COLORS.TRANSPARENT}
 				labelColor={COLORS.BLACK}
-				className="w-64"
-				label="ZAREJESTRUJ"
-				onClick={() => console.log("Zarejestruj się")}
+				className="w-80 h-[3.25rem]"
+				label="ZAREJESTRUJ SIĘ"
+				onClick={props.onChangePanelClickHandler}
 				fontBold
 			/>
 		</div>

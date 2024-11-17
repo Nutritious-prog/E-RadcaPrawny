@@ -12,12 +12,16 @@ module.exports = {
 		},
 		fontSize: {
 			sm: "0.8rem",
-			base: "1rem",
-			xl: "1.25rem",
-			"2xl": "2rem",
-			"3xl": "3rem",
-			"4xl": "3.5rem",
-			"5xl": "4rem",
+			md: "1rem",
+			bg: "1.125rem",
+			lg: "1.25rem",
+			extra_lg: "2rem",
+			xl: "3rem",
+			xxl: "5rem",
+			xxxl: "7rem",
+		},
+		fontFamily: {
+			"roboto-serif": ['"Roboto Serif"', "serif"],
 		},
 		extend: {
 			borderRadius: {
