@@ -55,9 +55,9 @@ export const DocumentEditor: FC = (): ReactElement => {
 			<div className="w-9/12 flex flex-col">
 				<Header />
 				<div className="w-full flex-grow flex justify-end h-full">
-					<div className="flex-grow">
+					<div className="w-9/12">
 						<TextTools editorRef={editorViewRef} />
-						<div className="flex-grow h-full">
+						<div className="h-[95%]">
 							<EditorView ref={editorViewRef} />
 						</div>
 					</div>

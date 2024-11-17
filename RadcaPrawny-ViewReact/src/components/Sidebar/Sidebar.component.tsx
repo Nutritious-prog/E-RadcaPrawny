@@ -32,7 +32,7 @@ export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactEleme
 						className="absolute bottom-0 left-0 m-auto z-2 w-3/12"
 					/>
 				) : (
-					<img src="" alt="Chat" className="absolute bottom-0 left-0 mb-4 ml-4 z-10" />
+					<img src="" alt="Chat" className="absolute bottom-0 left-0 m-auto z-2 w-3/12" />
 				)}
 			</div>
 		</StyledSidebar>
