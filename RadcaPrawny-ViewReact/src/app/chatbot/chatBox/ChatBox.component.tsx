@@ -30,7 +30,7 @@ export const ChatBox: FC<ChatBoxProps> = (props: ChatBoxProps): ReactElement => 
 
 	return (
 		<StyledChatbox>
-			<ChatContainer className="w-3/4 h-5/6 ml-[20%] mr-[5%]">
+			<ChatContainer className="w-full h-5/6">
 				<ConversationHeader>
 					<Avatar
 						src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXueg7SFBTHqAZuYu-etDK9HPg7vUU02ukjg&s"

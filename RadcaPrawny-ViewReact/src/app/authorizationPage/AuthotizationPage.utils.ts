@@ -9,5 +9,5 @@ export const validateEmail = (email: string): boolean => {
 }
 
 export const validateIdenticalPasswords = (password: string, confirmPassword: string): boolean => {
-    return password === confirmPassword;
+    return password === confirmPassword && password.length > 0;
 }

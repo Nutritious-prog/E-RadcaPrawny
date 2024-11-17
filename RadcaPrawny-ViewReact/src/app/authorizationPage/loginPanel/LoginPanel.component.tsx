@@ -2,6 +2,7 @@ import {COLORS} from "assets/colors";
 import LoginSecondPanelImage from "assets/images/LoginSecondPanelImage.svg";
 import {CustomButton} from "components/CustomButton/CustomButton.component";
 import React, {FC, ReactElement} from "react";
+import {useNavigate} from "react-router-dom";
 import {CustomInput} from "@/components/CustomInput/CustomInput.component";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import {StyledLoginPanale} from "./LoginPanel.style";
@@ -15,6 +16,12 @@ interface LoginPanelProps {
 }
 
 export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactElement => {
+	const navigate = useNavigate();
+
+	const onLoginClickHandler = () => {
+		navigate("/chat");
+	};
+
 	const loginMainSection: ReactElement = (
 		<div className="flex flex-col w-1/2 h-full items-center m-auto">
 			<div className="flex w-full text-extra_lg px-12 mt-[2rem]">{`LOGO`}</div>
@@ -46,7 +53,7 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 					borderColor={COLORS.BLACK}
 					className="w-80 h-[3.25rem]"
 					label="ZALOGUJ SIĘ"
-					onClick={() => console.log("Login")}
+					onClick={onLoginClickHandler}
 					fontBold
 				/>
 			</div>
