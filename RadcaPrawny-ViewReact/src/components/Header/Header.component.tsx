@@ -19,7 +19,7 @@ export const Header: React.FC = () => {
             </nav>
             <div className="flex justify-around items-center space-x-8">
                 <img src={UserIcon} alt="user" />
-                <Dropdown/>
+                <Dropdown />
             </div>
         </StyledHeader>
     );

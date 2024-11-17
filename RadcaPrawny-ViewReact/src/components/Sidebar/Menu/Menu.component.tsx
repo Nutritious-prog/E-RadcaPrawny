@@ -50,11 +50,12 @@ interface MenuProps {
 }
 
 export const Menu: FC<MenuProps> = (props: MenuProps): ReactElement => {
+    const isAdmin = true; //TODO: to be continued
     const [items, setItems] = useState<MenuItem[]>([]);
     const [uploadVisible, setUploadVisible] = useState(false);
 
     const handleMenuClick = ({ key }: { key: string }) => {
-        if (key === "1") {
+        if (isAdmin && key === "1") {
             setUploadVisible(true);
         }
     };
@@ -85,15 +86,17 @@ export const Menu: FC<MenuProps> = (props: MenuProps): ReactElement => {
                 <AntdMenu items={items} mode="inline" onClick={handleMenuClick} />
             </StyledMenu>
 
-            <Modal
-                open={uploadVisible}
-                title="Dodaj nowy dokument"
-                onCancel={() => setUploadVisible(false)}
-                footer={null}
-                centered={true}
-            >
-                <Upload />
-            </Modal>
+            {isAdmin && (
+                <Modal
+                    open={uploadVisible}
+                    title="Dodaj nowy dokument"
+                    onCancel={() => setUploadVisible(false)}
+                    footer={null}
+                    centered={true}
+                >
+                    <Upload />
+                </Modal>
+            )}
         </>
     );
 };

@@ -49,7 +49,10 @@ export const AntdConfigProvider: React.FC<{ children: React.ReactNode }> = ({ ch
                         colorText: `${COLORS.WHITE}`,
                         fontFamily: "Baloo Paaji 2, serif",
                         fontSizeSM: 16,
-                    }
+                    },
+                    Tooltip: {
+                        fontFamily: "Baloo Paaji 2, serif",
+                    },
                 },
             }}
         >

@@ -18,7 +18,7 @@ export const StyledCustomButton = styled.div<StyledCustomButtonProps>`
         color: ${(props: StyledCustomButtonProps): string => props.labelColor};
         border-color: ${(props: StyledCustomButtonProps): string => props.borderColor};
         letter-spacing: 0.15rem;
-		font-size: 1rem;
+        font-size: 1rem;
     }
 
     .ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover,

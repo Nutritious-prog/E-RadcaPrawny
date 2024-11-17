@@ -10,6 +10,7 @@ export const StyledTag = styled.div`
         padding: 0.2rem 0.8rem 0.2rem 0.8rem;
         width: 12rem;
         text-align: center;
+        background-color: ${COLORS.TURQUOISE};
     }
 
     .ant-tag-checkable {

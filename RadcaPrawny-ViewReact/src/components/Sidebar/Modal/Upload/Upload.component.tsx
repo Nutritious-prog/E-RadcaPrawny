@@ -1,21 +1,20 @@
 import React from "react";
-import { StyledUpload } from "./Upload.style";
-import { Upload as AntdUpload, Button } from "antd";
-import { faUpload } from "@fortawesome/free-solid-svg-icons";
-import { CustomIcon } from "components/CustomIcon/CustomIcon.component";
-
+import { Upload as AntdUpload } from "antd";
+import { CustomButton } from "components/CustomButton/CustomButton.component";
 
 export const Upload: React.FC = () => {
+    const handleUpload = () => {
+        console.log("File uploaded");
+    };
+
     return (
-        <StyledUpload>
-            <AntdUpload
-                beforeUpload={(file) => {
-                    console.log("File selected:", file);
-                    return false; 
-                }}
-            >
-                <Button icon={<CustomIcon icon={faUpload}/>}>Wybierz plik do przesłania</Button>
-            </AntdUpload>
-        </StyledUpload>
+        <AntdUpload
+            beforeUpload={(file) => {
+                console.log("File selected:", file);
+                return false;
+            }}
+        >
+            <CustomButton label={`Wybierz plik`} onClick={handleUpload} className="h-8" />
+        </AntdUpload>
     );
 };
