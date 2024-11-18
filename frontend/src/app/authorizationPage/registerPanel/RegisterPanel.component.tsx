@@ -2,8 +2,10 @@ import {COLORS} from "assets/colors";
 import RegisterSecondPanelImage from "assets/images/RegisterSecondPanelImage.svg";
 import {CustomButton} from "components/CustomButton/CustomButton.component";
 import React, {FC, ReactElement, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {CustomInput} from "@/components/CustomInput/CustomInput.component";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import {validateIdenticalPasswords} from "../AuthotizationPage.utils";
 import {StyledRegisterPanal} from "./RegisterPanel.style";
 
 interface RegisterPanelProps {
@@ -15,7 +17,12 @@ interface RegisterPanelProps {
 }
 
 export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps): ReactElement => {
+	const navigate = useNavigate();
 	const [repeatedPassword, setRepeatedPassword] = useState<string>("");
+
+	const onRegisterClickHandler = () => {
+		navigate("/chat");
+	};
 
 	const registerMainSection: ReactElement = (
 		<div className="flex flex-col w-1/2 h-full items-center m-auto">
@@ -54,9 +61,10 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 					buttonColor={COLORS.BLACK}
 					labelColor={COLORS.WHITE}
 					borderColor={COLORS.BLACK}
+					disabled={!validateIdenticalPasswords(props.userPassword, repeatedPassword)}
 					className="w-80 h-[3.25rem]"
 					label="ZAREJESTRUJ SIĘ"
-					onClick={() => console.log("Register")}
+					onClick={onRegisterClickHandler}
 					fontBold
 				/>
 			</div>

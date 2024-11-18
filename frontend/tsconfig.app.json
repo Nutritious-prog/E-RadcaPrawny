@@ -9,6 +9,7 @@
       "@/*": ["./src/*"]
     },
     "target": "ES6",
+    "lib": ["DOM", "ES2016"],
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
