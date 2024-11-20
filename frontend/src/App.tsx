@@ -1,5 +1,6 @@
 import React, {Component, StrictMode} from "react";
 import {Provider} from "react-redux";
+import {ToastContainer} from "react-toastify";
 import {AntdConfigProvider} from "./AntdConfigProvider";
 import store from "./app/redux/store";
 import {AppRouter} from "./app/router/AppRouter";
@@ -11,6 +12,18 @@ export default class App extends Component {
 			<Provider store={store}>
 				<AntdConfigProvider>
 					<GlobalStyles />
+					<ToastContainer
+						position="top-right"
+						autoClose={5000}
+						hideProgressBar={false}
+						newestOnTop={false}
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss
+						draggable
+						pauseOnHover
+						theme="light"
+					/>
 					<StrictMode>
 						<AppRouter />
 					</StrictMode>

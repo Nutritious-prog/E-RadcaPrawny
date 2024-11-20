@@ -20,7 +20,7 @@ export const DocumentEditor: FC = (): ReactElement => {
 	const [documents, setDocuments] = useState<DocumentItem[]>([]);
 
 	const role: UserRole = useSelector((state: RootState) => state.user.role);
-	const isAdmin: boolean = role === UserRole.ADMIN;
+	const isAdmin: boolean = role === UserRole.ROLE_ADMIN;
 
 	useEffect(() => {
 		fetchDocuments();

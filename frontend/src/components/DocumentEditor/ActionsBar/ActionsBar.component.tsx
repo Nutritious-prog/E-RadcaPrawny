@@ -17,7 +17,7 @@ export const ActionsBar: React.FC = () => {
 		setSelectedTags(nextSelectedTags);
 	};
 
-	const isAdmin: boolean = role === UserRole.ADMIN;
+	const isAdmin: boolean = role === UserRole.ROLE_ADMIN;
 
 	const handleDownload = () => {
 		console.log("Download");

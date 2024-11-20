@@ -2,9 +2,15 @@ import {COLORS} from "assets/colors";
 import LoginSecondPanelImage from "assets/images/LoginSecondPanelImage.svg";
 import {CustomButton} from "components/CustomButton/CustomButton.component";
 import React, {FC, ReactElement} from "react";
+import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import {setUser} from "@/app/redux/userRole/userRole.slice";
 import {CustomInput} from "@/components/CustomInput/CustomInput.component";
+import {ApiResponse} from "@/utils/axiosUtils/ApiResponse.dto";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import {LoginRequestDTO, LoginResponseDTO} from "../AuthorizationPage.dto";
+import {AuthorizationPageService} from "../AuthorizationPage.service";
 import {StyledLoginPanale} from "./LoginPanel.style";
 
 interface LoginPanelProps {
@@ -17,9 +23,24 @@ interface LoginPanelProps {
 
 export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactElement => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
-	const onLoginClickHandler = () => {
-		navigate("/chat");
+	const onLoginClickHandler = async () => {
+		const loginRequestDTO: LoginRequestDTO = {
+			email: props.userEmail,
+			password: props.userPassword,
+		};
+
+		const apiResponse: ApiResponse<LoginResponseDTO> =
+			await AuthorizationPageService.createAuthenticationTokenRest(loginRequestDTO);
+
+		if (apiResponse.success) {
+			toast.success(apiResponse.message);
+			dispatch(setUser({role: apiResponse.response.role, token: apiResponse.response.token}));
+			navigate("/chat");
+		} else {
+			toast.error(apiResponse.message);
+		}
 	};
 
 	const loginMainSection: ReactElement = (
@@ -65,7 +86,7 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 			<div className="flex w-7/12 text-[1.125rem] mx-auto font-semibold">
 				{`Zarządzaj rozporządzeniami łatwiej niż kiedykolwiek!`}
 			</div>
-			<img className="text-BLACK" src={LoginSecondPanelImage} alt="LoginSecondPanelImage" />
+			<img className="text-BLACK w-1/2" src={LoginSecondPanelImage} alt="LoginSecondPanelImage" />
 			<div className="flex flex-col w-7/12 text-[1.125rem] mx-auto font-semibold">
 				<div>{`Nie masz jeszcze konta? Zarejestruj się i dołącz do naszej społeczności!`}</div>
 			</div>

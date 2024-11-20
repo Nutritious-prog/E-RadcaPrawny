@@ -9,28 +9,6 @@ export const StyledAuthotizationPage = styled.div`
 	background-color: ${COLORS.TURQUOISE};
 	overflow: hidden;
 
-	/* &::before {
-		content: "";
-		position: absolute;
-		bottom: -4.25rem;
-		left: -4.25rem;
-		width: 20.75rem;
-		height: 20.75rem;
-		background-color: ${COLORS.TURQUOISE};
-		border-radius: 50%;
-	}
-
-	&::after {
-		content: "";
-		position: absolute;
-		top: -9.375rem;
-		right: -9.375rem;
-		width: 37.5rem;
-		height: 22.25rem;
-		background-color: ${COLORS.TURQUOISE};
-		border-radius: 50%;
-	} */
-
 	.authorization-page-box {
 		display: flex;
 		margin: auto;

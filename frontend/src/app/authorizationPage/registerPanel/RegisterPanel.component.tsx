@@ -3,8 +3,12 @@ import RegisterSecondPanelImage from "assets/images/RegisterSecondPanelImage.svg
 import {CustomButton} from "components/CustomButton/CustomButton.component";
 import React, {FC, ReactElement, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {toast, ToastContainer} from "react-toastify";
 import {CustomInput} from "@/components/CustomInput/CustomInput.component";
+import {ApiResponse} from "@/utils/axiosUtils/ApiResponse.dto";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
+import {UserDTO} from "../AuthorizationPage.dto";
+import {AuthorizationPageService} from "../AuthorizationPage.service";
 import {validateIdenticalPasswords} from "../AuthotizationPage.utils";
 import {StyledRegisterPanal} from "./RegisterPanel.style";
 
@@ -20,8 +24,20 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 	const navigate = useNavigate();
 	const [repeatedPassword, setRepeatedPassword] = useState<string>("");
 
-	const onRegisterClickHandler = () => {
-		navigate("/chat");
+	const onRegisterClickHandler = async () => {
+		const userDTO: UserDTO = {
+			email: props.userEmail,
+			password: props.userPassword,
+		};
+
+		const response: ApiResponse<any> = await AuthorizationPageService.registerUserRest(userDTO);
+
+		if (response.success) {
+			toast.success("Registration successful!");
+			props.onChangePanelClickHandler();
+		} else {
+			toast.error(response.message);
+		}
 	};
 
 	const registerMainSection: ReactElement = (
@@ -74,11 +90,11 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 	const registerSecondSection: ReactElement = (
 		<div className="flex flex-col w-7/12 h-full items-center bg-TURQUOISE rounded-lg m-auto">
 			<div className="flex w-full text-extra_lg px-12 mt-[2rem]">{`LOGO`}</div>
-			<div className="flex flex-col w-full h-full text-BLACK items-center m-[-4rem] justify-center gap-y-8 ">
+			<div className="flex flex-col w-full h-full text-BLACK items-center m-[-4rem] justify-center gap-y-8">
 				<div className="flex w-7/12 text-bg mx-auto font-semibold">
 					{`Edytuj treści, dodawaj słowa kluczowe i skorzystaj z inteligentnego asystenta, aby ułatwić sobie pracę z ustawami.`}
 				</div>
-				<img className="text-BLACK" src={RegisterSecondPanelImage} alt="RegisterSecondPanelImage" />
+				<img className="text-BLACK w-1/2" src={RegisterSecondPanelImage} alt="RegisterSecondPanelImage" />
 				<div className="flex flex-col w-7/12 text-bg mx-auto items-center text-center font-semibold">
 					<div>{`Masz już konto? Zaloguj się, aby rozpocząć pracę.`}</div>
 				</div>

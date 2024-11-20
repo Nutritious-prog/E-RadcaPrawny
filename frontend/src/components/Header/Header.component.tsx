@@ -10,7 +10,7 @@ import {StyledHeader} from "./Header.style";
 
 export const Header: React.FC = () => {
 	const role: UserRole = useSelector((state: RootState) => state.user.role);
-	const canEditDocuments: boolean = role === UserRole.ADMIN || role === UserRole.EDITOR;
+	const canEditDocuments: boolean = role === UserRole.ROLE_ADMIN || role === UserRole.ROLE_EDITOR;
 
 	return (
 		<StyledHeader>
@@ -24,7 +24,7 @@ export const Header: React.FC = () => {
 			</nav>
 			<div className="flex justify-around items-center space-x-8">
 				<img src={UserIcon} alt="user" />
-				<Dropdown isLoggedIn={role !== UserRole.GUEST} />
+				<Dropdown isLoggedIn={role !== UserRole.ROLE_USER} />
 			</div>
 		</StyledHeader>
 	);

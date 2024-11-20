@@ -17,7 +17,7 @@ interface MenuProps {
 export const Menu: FC<MenuProps> = (props: MenuProps): ReactElement => {
 	const role: UserRole = useSelector((state: RootState) => state.user.role);
 
-	const isAdmin: boolean = role === UserRole.ADMIN;
+	const isAdmin: boolean = role === UserRole.ROLE_ADMIN;
 
 	const filteredItems =
 		isAdmin || props.type !== SidebarType.DOCUMENTS

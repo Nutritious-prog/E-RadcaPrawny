@@ -3,10 +3,12 @@ import {UserRole} from './UserRole.type';
 
 interface UserState {
     role: UserRole;
+    token: string;
 }
 
 const initialState: UserState = {
-    role: UserRole.ADMIN,
+    role: UserRole.ROLE_USER,
+    token: ""
 };
 
 const userSlice = createSlice({
@@ -16,8 +18,15 @@ const userSlice = createSlice({
         setRole: (state, action: PayloadAction<UserState['role']>) => {
             state.role = action.payload;
         },
+        setToken: (state, action: PayloadAction<string>) => {
+            state.token = action.payload;
+        },
+        setUser: (state, action: PayloadAction<{role: UserRole, token: string}>) => {
+            state.role = action.payload.role;
+            state.token = action.payload.token;
+        },
     },
 });
 
-export const { setRole } = userSlice.actions;
+export const { setRole, setToken, setUser } = userSlice.actions;
 export default userSlice.reducer;
