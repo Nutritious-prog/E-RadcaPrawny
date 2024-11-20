@@ -15,7 +15,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactElement => {
 	return (
 		<StyledSidebar>
-			<div className="flex flex-col justify-between space-y-12 max-w-full">
+			<div className="flex flex-col justify-start space-y-12 max-w-full h-full">
 				<span className="sidebar-logo">
 					<img src={Logo} alt="Logo" height="200px" width="400px" />
 				</span>
@@ -30,8 +30,8 @@ export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactEleme
 						src={DocumentEditorImage}
 						alt="Dokument wychodzący z laptopa"
 						height="200px"
-						width="400px"
-						className="absolute bottom-0 left-0 m-auto z-2 w-3/12 h-3/12"
+						width="200px"
+						className="m-auto z-1"
 					/>
 				) : (
 					<img src="" alt="Chat" className="absolute bottom-0 left-0 m-auto z-2 w-3/12 h-3/12" />
