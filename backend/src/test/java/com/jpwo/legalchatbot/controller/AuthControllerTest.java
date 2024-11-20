@@ -3,7 +3,7 @@ package com.jpwo.legalchatbot.controller;
 import com.jpwo.legalchatbot.exception.UserNotFoundException;
 import com.jpwo.legalchatbot.model.ApiResponse;
 import com.jpwo.legalchatbot.model.dto.LoginRequestDTO;
-import com.jpwo.legalchatbot.model.dto.LoginResponseDTO;
+import com.jpwo.legalchatbot.model.dto.AuthResponseDTO;
 import com.jpwo.legalchatbot.model.dto.UserDTO;
 import com.jpwo.legalchatbot.model.security.SystemRole;
 import com.jpwo.legalchatbot.model.security.User;
@@ -72,16 +72,25 @@ class AuthControllerTest {
         userDTO.setEmail("newuser@example.com");
         userDTO.setPassword("password123");
 
+        User mockUser = new User();
+        mockUser.setEmail(userDTO.getEmail());
+        mockUser.setPassword("encodedPassword");
+        mockUser.setRole(SystemRole.ROLE_EDITOR);
+        mockUser.setEnabled(true);
+
         // Setup mocks
         when(userService.existsByEmail(userDTO.getEmail())).thenReturn(false);
         when(passwordEncoder.encode(userDTO.getPassword())).thenReturn("encodedPassword");
+        when(userService.saveUser(any(User.class))).thenReturn(mockUser);
+        when(jwtTokenManager.generateToken(mockUser)).thenReturn("valid_token");
+        when(encryptor.encrypt("valid_token")).thenReturn("encrypted_token");
 
         // When
         ResponseEntity<ApiResponse<?>> response = authController.registerUser(null, userDTO);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(response.getBody().getMessage()).isEqualTo("User created successfully");
+        assertThat(response.getBody().getMessage()).isEqualTo("User registered successfully");
     }
 
 
@@ -138,7 +147,7 @@ class AuthControllerTest {
         when(encryptor.encrypt("valid_token")).thenReturn("encrypted_token");
 
         // When
-        ResponseEntity<ApiResponse<LoginResponseDTO>> response = authController.createAuthenticationToken(null, loginRequest);
+        ResponseEntity<ApiResponse<AuthResponseDTO>> response = authController.createAuthenticationToken(null, loginRequest);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -159,7 +168,7 @@ class AuthControllerTest {
         doThrow(new BadCredentialsException("INVALID_CREDENTIALS")).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
 
         // When
-        ResponseEntity<ApiResponse<LoginResponseDTO>> response = authController.createAuthenticationToken(null, loginRequest);
+        ResponseEntity<ApiResponse<AuthResponseDTO>> response = authController.createAuthenticationToken(null, loginRequest);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
@@ -180,7 +189,7 @@ class AuthControllerTest {
         loginRequest.setPassword(password);
 
         // When
-        ResponseEntity<ApiResponse<LoginResponseDTO>> response = authController.createAuthenticationToken(null, loginRequest);
+        ResponseEntity<ApiResponse<AuthResponseDTO>> response = authController.createAuthenticationToken(null, loginRequest);
 
         // Then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);

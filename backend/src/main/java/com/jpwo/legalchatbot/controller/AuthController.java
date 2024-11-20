@@ -3,7 +3,7 @@ package com.jpwo.legalchatbot.controller;
 import com.jpwo.legalchatbot.exception.UserNotFoundException;
 import com.jpwo.legalchatbot.model.ApiResponse;
 import com.jpwo.legalchatbot.model.dto.LoginRequestDTO;
-import com.jpwo.legalchatbot.model.dto.LoginResponseDTO;
+import com.jpwo.legalchatbot.model.dto.AuthResponseDTO;
 import com.jpwo.legalchatbot.model.dto.UserDTO;
 import com.jpwo.legalchatbot.model.security.SystemRole;
 import com.jpwo.legalchatbot.model.security.User;
@@ -52,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/authenticate")
-    public ResponseEntity<ApiResponse<LoginResponseDTO>> createAuthenticationToken(HttpServletRequest request, @RequestBody LoginRequestDTO loginRequest) throws Exception {
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> createAuthenticationToken(HttpServletRequest request, @RequestBody LoginRequestDTO loginRequest) throws Exception {
         if (loginRequest.getEmail() == null || loginRequest.getEmail().isEmpty() ||
                 loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {
             return new ResponseEntity<>(new ApiResponse<>(false, null, "Invalid input data"), HttpStatus.BAD_REQUEST);
@@ -72,11 +72,11 @@ public class AuthController {
         logger.warn("PLAIN TOKEN: {}", token);
         String encryptedToken = encryptor.encrypt(token);
         logger.info("Encrypted token: {}", encryptedToken);
-        LoginResponseDTO loginResponse = LoginResponseDTO.builder()
+        AuthResponseDTO loginResponse = AuthResponseDTO.builder()
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .token(encryptedToken).build();
-        ApiResponse<LoginResponseDTO> apiResponse = new ApiResponse<>(true, loginResponse, "Auth success");
+        ApiResponse<AuthResponseDTO> apiResponse = new ApiResponse<>(true, loginResponse, "Auth success");
         return ResponseEntity.ok(apiResponse);
     }
 
@@ -115,11 +115,15 @@ public class AuthController {
             user.setRole(systemRole);
 
             // Save the user
-            userService.saveUser(user);
-
-            // Create response
-            ApiResponse<UserDTO> response = new ApiResponse<>(true, null, "User created successfully");
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+            user =  userService.saveUser(user);
+            final String token = jwtTokenManager.generateToken(user);
+            String encryptedToken = encryptor.encrypt(token);
+            AuthResponseDTO registerResponse = AuthResponseDTO.builder()
+                    .email(user.getEmail())
+                    .role(user.getRole().name())
+                    .token(encryptedToken).build();
+            ApiResponse<AuthResponseDTO> apiResponse = new ApiResponse<>(true, registerResponse, "User registered successfully");
+            return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
 
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse<>(false, null, "Error creating user"), HttpStatus.INTERNAL_SERVER_ERROR);
