@@ -3,7 +3,7 @@ import LoginSecondPanelImage from "assets/images/LoginSecondPanelImage.svg";
 import {CustomButton} from "components/CustomButton/CustomButton.component";
 import React, {FC, ReactElement} from "react";
 import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {setUser} from "@/app/redux/userRole/userRole.slice";
 import {CustomInput} from "@/components/CustomInput/CustomInput.component";
@@ -43,6 +43,10 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 		}
 	};
 
+	const onContinueAsGuestClickHandler = () => {
+		navigate("/chat");
+	};
+
 	const loginMainSection: ReactElement = (
 		<div className="flex flex-col w-1/2 h-full items-center m-auto">
 			<div className="flex w-full text-extra_lg px-12 mt-[2rem]">{`LOGO`}</div>
@@ -77,6 +81,9 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 					onClick={onLoginClickHandler}
 					fontBold
 				/>
+				<Link to="/chat" className="text-BLACK" onClick={onContinueAsGuestClickHandler}>
+					{`Kontynuuj jako gość`}
+				</Link>
 			</div>
 		</div>
 	);
