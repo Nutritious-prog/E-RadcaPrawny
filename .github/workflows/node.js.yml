@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js CI Test
+name: Node.js CI + Tests
 
 on:
   push:
@@ -10,9 +10,13 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+  build:
 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+        
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,20 +25,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: npm
 
       - name: Install dependencies
-        working-directory: ./frontend
-        run: npm ci
+        run: npm install
 
       - name: Build application
-        working-directory: ./frontend
         run: npm run dev
 
       - name: Run tests
-        working-directory: ./frontend
         run: npm test
-
 
       - name: Run tests
         run: npm test
