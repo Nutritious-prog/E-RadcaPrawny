@@ -44,7 +44,7 @@ describe("LoginPanel integration tests", () => {
                 <MemoryRouter initialEntries={["/"]}>
                     <Routes>
                         <Route
-                            path="/login"
+                            path="/"
                             element={
                                 <LoginPanel
                                     userEmail=""
