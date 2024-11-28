@@ -1,20 +1,27 @@
-import React, {forwardRef, useImperativeHandle, useRef} from "react";
+import React, {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
 import {StyledEditorView} from "./EditorView.style";
 
 export interface EditorViewProps {
 	applyFormatting: (command: string) => void;
+	editorContent: string;
 }
 
-export const EditorView = forwardRef<EditorViewProps>((props, ref) => {
-	const editorRef = useRef<HTMLDivElement>(null);
+export const EditorView = forwardRef<EditorViewProps, { editorContent: string }>((props, ref) => {
+    const editorRef = useRef<HTMLDivElement>(null);
 
-	useImperativeHandle(ref, () => ({
-		// to be continued
-		applyFormatting(command) {
-			document.execCommand(command, false);
-			editorRef.current?.focus();
-		},
-	}));
+	// useImperativeHandle(ref, () => ({
+	// 	// to be continued
+	// 	applyFormatting(command) {
+	// 		document.execCommand(command, false);
+	// 		editorRef.current?.focus();
+	// 	},
+	// }));
+
+	useEffect(() => {
+        if (editorRef.current) {
+            editorRef.current.innerHTML = props.editorContent;
+        }
+    }, [props.editorContent]);
 
 	const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
 		// to be continued

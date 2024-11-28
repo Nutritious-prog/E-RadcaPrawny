@@ -26,6 +26,7 @@ export const DocumentEditor: FC = (): ReactElement => {
 
 	useEffect(() => {
 		fetchDocuments();
+		fetchLegalActs();
 	}, []);
 
 	const fetchDocuments = async () => {
@@ -43,10 +44,16 @@ export const DocumentEditor: FC = (): ReactElement => {
 		setDocuments(data);
 	};
 
-	const fetchEditorContent = async () => {
+	const fetchLegalActs = async () => {
         const response = await DocumentEditorService.getLegalActs();
-        
+        if (response.success) {
+            const legalActs = response.response;
+            if (legalActs.length > 0) {
+                setEditorContent(legalActs[0].textContent || "");
+            }
+        }
     };
+
 
 	const handleMenuClick = ({key}: {key: string}) => {
 		if (isAdmin && key === "1") {
@@ -64,7 +71,7 @@ export const DocumentEditor: FC = (): ReactElement => {
 				<div className="w-full flex-grow flex justify-end h-full">
 					<div className="w-9/12 h-[90%]">
 						<TextTools editorRef={editorViewRef} />
-						<EditorView ref={editorViewRef} />
+						<EditorView ref={editorViewRef} editorContent={editorContent} />
 					</div>
 					<div className="w-3/12 h-full">
 						<ActionsBar />
