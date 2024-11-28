@@ -1,4 +1,4 @@
-describe("Logout Functionality", () => {
+describe("Admin editor access functionality", () => {
     beforeEach(() => {
         cy.visit("http://localhost:5173/");
         cy.get('input[placeholder="Wpisz swój email"]').type("admin@test.com");
@@ -9,9 +9,14 @@ describe("Logout Functionality", () => {
         cy.url().should("include", "/chat");
     });
 
-    it("Should log out and redirect to the login page", () => {
-        cy.get(".ant-dropdown-link").click();
-        cy.get("span.ant-dropdown-menu-title-content").contains("Wyloguj się").click();
-        cy.url().should("include", "/");
+    it('should navigate to the documents page when documents link is clicked', () => {
+
+        cy.get('[data-cy="documents-link"]').click();
+        cy.url().should('include', '/documents');
+        // check if can come back to chat page
+        cy.get('[data-cy="chatbot-link"]').click();
+        cy.url().should('include', '/chat');
+
+
     });
 });

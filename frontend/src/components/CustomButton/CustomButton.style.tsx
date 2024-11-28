@@ -8,7 +8,10 @@ interface StyledCustomButtonProps {
     fontBold: boolean;
 }
 
-export const StyledCustomButton = styled.div<StyledCustomButtonProps>`
+export const StyledCustomButton = styled.div.withConfig({
+    shouldForwardProp: (prop) =>
+        !["buttonColor", "buttonColorOnHover", "labelColor", "borderColor", "fontBold"].includes(prop),
+})<StyledCustomButtonProps>`
     .ant-btn {
         width: 100%;
 		height: 100%;
