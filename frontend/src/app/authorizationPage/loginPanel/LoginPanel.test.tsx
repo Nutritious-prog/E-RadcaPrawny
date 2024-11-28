@@ -117,7 +117,6 @@ describe("LoginPanel integration tests", () => {
             });
             fireEvent.click(screen.getByText("ZALOGUJ SIĘ"));
         });
-
         expect(toast.error).toHaveBeenCalledWith("INVALID_CREDENTIALS");
     });
 
