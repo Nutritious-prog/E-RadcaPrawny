@@ -11,6 +11,7 @@ import com.jpwo.legalchatbot.security.Encryptor;
 import com.jpwo.legalchatbot.security.JwtTokenManager;
 import com.jpwo.legalchatbot.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 @RequestMapping(path = "api/v1/auth")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -115,6 +117,7 @@ public class AuthController {
             user.setRole(systemRole);
 
             // Save the user
+
             user =  userService.saveUser(user);
             final String token = jwtTokenManager.generateToken(user);
             String encryptedToken = encryptor.encrypt(token);
