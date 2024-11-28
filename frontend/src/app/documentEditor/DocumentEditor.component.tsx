@@ -12,12 +12,14 @@ import {SidebarType} from "components/Sidebar/Sidebar.utils";
 import React, {FC, ReactElement, useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {StyledDocumentEditor} from "./DocumentEditor.style";
+import { DocumentEditorService } from "./DocumentEditor.service";
 
 export const DocumentEditor: FC = (): ReactElement => {
 	const editorViewRef = useRef<EditorViewProps>(null);
 
 	const [uploadVisible, setUploadVisible] = useState<boolean>(false);
 	const [documents, setDocuments] = useState<DocumentItem[]>([]);
+	const [editorContent, setEditorContent] = useState<string>("");
 
 	const role: UserRole = useSelector((state: RootState) => state.user.role);
 	const isAdmin: boolean = role === UserRole.ROLE_ADMIN;
@@ -40,6 +42,11 @@ export const DocumentEditor: FC = (): ReactElement => {
 		}));
 		setDocuments(data);
 	};
+
+	const fetchEditorContent = async () => {
+        const response = await DocumentEditorService.getLegalActs();
+        
+    };
 
 	const handleMenuClick = ({key}: {key: string}) => {
 		if (isAdmin && key === "1") {
