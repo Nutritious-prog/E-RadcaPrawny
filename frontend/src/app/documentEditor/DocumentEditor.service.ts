@@ -10,11 +10,9 @@ const getToken = (): string | null => {
     return state.user.token;
 };
 
-// hardkodowałam też swój token bo ten jest jakiś dziwny, nie ja pisałam
 
 export const DocumentEditorService = {
-    getLegalActs: async (): Promise<ApiResponse<LegalActDTO[]>> => {
-        const token = getToken();
+    getLegalActs: async (token: string): Promise<ApiResponse<LegalActDTO[]>> => {
         const response = await fetch(`${API_URL}`, {
             method: "GET",
             headers: {

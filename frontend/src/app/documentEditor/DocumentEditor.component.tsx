@@ -22,6 +22,7 @@ export const DocumentEditor: FC = (): ReactElement => {
 	const [editorContent, setEditorContent] = useState<string>("");
 
 	const role: UserRole = useSelector((state: RootState) => state.user.role);
+	const token: string = useSelector((state: RootState) => state.user.token);
 	const isAdmin: boolean = role === UserRole.ROLE_ADMIN;
 
 	useEffect(() => {
@@ -45,7 +46,8 @@ export const DocumentEditor: FC = (): ReactElement => {
 	};
 
 	const fetchLegalActs = async () => {
-        const response = await DocumentEditorService.getLegalActs();
+		console.log("token:", token);
+        const response = await DocumentEditorService.getLegalActs(token);
         if (response.success) {
             const legalActs = response.response;
             if (legalActs.length > 0) {
