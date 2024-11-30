@@ -8,9 +8,11 @@ import { AuthorizationPageService } from "../AuthorizationPage.service";
 import { setUser } from "@/app/redux/userRole/userRole.slice";
 import { UserRole } from "@/app/redux/userRole/UserRole.type";
 import "@testing-library/jest-dom";
+import {toast, ToastContainer} from "react-toastify";
 
 jest.mock("../AuthorizationPage.service");
 jest.mock("react-toastify", () => ({
+    ToastContainer: () => <div data-testid="toast-container" />,
     toast: {
         success: jest.fn(),
         error: jest.fn(),
@@ -44,7 +46,7 @@ describe("LoginPanel integration tests", () => {
                 <MemoryRouter initialEntries={["/"]}>
                     <Routes>
                         <Route
-                            path="/login"
+                            path="/"
                             element={
                                 <LoginPanel
                                     userEmail=""
@@ -72,6 +74,95 @@ describe("LoginPanel integration tests", () => {
         });
 
         expect(await screen.findByText("Chat Component")).toBeInTheDocument();
+    });
+
+    it("Displays an error message for invalid credentials when email is invalid", async () => {
+        const mockResponse = {
+            success: false,
+            message: "INVALID_CREDENTIALS",
+        };
+
+        (AuthorizationPageService.createAuthenticationTokenRest as jest.Mock).mockResolvedValue(mockResponse);
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter initialEntries={["/"]}>
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <ToastContainer />
+                                    <LoginPanel
+                                        userEmail=""
+                                        setUserEmail={() => {}}
+                                        userPassword=""
+                                        setUserPassword={() => {}}
+                                        onChangePanelClickHandler={() => {}}
+                                    />
+                                </>
+                            }
+                        />
+                    </Routes>
+                </MemoryRouter>
+            </Provider>
+        );
+
+        await act(async () => {
+            fireEvent.change(screen.getByPlaceholderText("Wpisz swój email"), {
+                target: { value: "invalid-email" },
+            });
+            fireEvent.change(screen.getByPlaceholderText("Wpisz swoje hasło"), {
+                target: { value: "12345678" },
+            });
+            fireEvent.click(screen.getByText("ZALOGUJ SIĘ"));
+        });
+        expect(toast.error).toHaveBeenCalledWith("INVALID_CREDENTIALS");
+    });
+
+    it("Displays an error message for invalid credentials when password is invalid", async () => {
+        const mockResponse = {
+            success: false,
+            message: "INVALID_CREDENTIALS",
+        };
+
+        (AuthorizationPageService.createAuthenticationTokenRest as jest.Mock).mockResolvedValue(mockResponse);
+
+        render(
+            <Provider store={store}>
+                <MemoryRouter initialEntries={["/"]}>
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <ToastContainer />
+                                    <LoginPanel
+                                        userEmail=""
+                                        setUserEmail={() => {}}
+                                        userPassword=""
+                                        setUserPassword={() => {}}
+                                        onChangePanelClickHandler={() => {}}
+                                    />
+                                </>
+                            }
+                        />
+                    </Routes>
+                </MemoryRouter>
+            </Provider>
+        );
+
+        await act(async () => {
+            fireEvent.change(screen.getByPlaceholderText("Wpisz swój email"), {
+                target: { value: "admin@example.com" },
+            });
+            fireEvent.change(screen.getByPlaceholderText("Wpisz swoje hasło"), {
+                target: { value: "wrongpassword" },
+            });
+            fireEvent.click(screen.getByText("ZALOGUJ SIĘ"));
+        });
+
+        expect(toast.error).toHaveBeenCalledWith("INVALID_CREDENTIALS");
     });
 
     it("Stores the authorization token in Redux after successful login", async () => {

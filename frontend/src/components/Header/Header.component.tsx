@@ -16,9 +16,9 @@ export const Header: React.FC = () => {
 		<StyledHeader>
 			<nav className="header-nav">
 				<ul className="flex justify-evenly">
-					<li>{canEditDocuments && <Link to="/documents">EDYTOR</Link>}</li>
+					<li>{canEditDocuments && <Link data-cy="documents-link" to="/documents">EDYTOR</Link>}</li>
 					<li>
-						<Link to="/chat">CHATBOT</Link>
+						<Link data-cy="chatbot-link" to="/chat">CHATBOT</Link>
 					</li>
 				</ul>
 			</nav>

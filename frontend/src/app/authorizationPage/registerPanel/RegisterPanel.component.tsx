@@ -9,7 +9,6 @@ import {ApiResponse} from "@/utils/axiosUtils/ApiResponse.dto";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import {UserDTO} from "../AuthorizationPage.dto";
 import {AuthorizationPageService} from "../AuthorizationPage.service";
-import {validateIdenticalPasswords} from "../AuthotizationPage.utils";
 import {StyledRegisterPanal} from "./RegisterPanel.style";
 
 interface RegisterPanelProps {
@@ -24,11 +23,21 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 	const navigate = useNavigate();
 	const [repeatedPassword, setRepeatedPassword] = useState<string>("");
 
+	const validateIdenticalPasswords = (password: string, confirmPassword: string): boolean => {
+		return password === confirmPassword && password.length > 0;
+	}
+
 	const onRegisterClickHandler = async () => {
+
 		const userDTO: UserDTO = {
 			email: props.userEmail,
 			password: props.userPassword,
 		};
+
+		if (!validateIdenticalPasswords(props.userPassword, repeatedPassword)) {
+			toast.error("Validation failed");
+			return;
+		}
 
 		const response: ApiResponse<any> = await AuthorizationPageService.registerUserRest(userDTO);
 
@@ -69,7 +78,7 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 					label="Powtórz hasło"
 					inputType="password"
 					icon={faLock}
-					placeholder="Wpisz swoje hasło"
+					placeholder="Powtórz swoje hasło"
 					value={repeatedPassword}
 					setValue={setRepeatedPassword}
 				/>
@@ -77,7 +86,6 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 					buttonColor={COLORS.BLACK}
 					labelColor={COLORS.WHITE}
 					borderColor={COLORS.BLACK}
-					disabled={!validateIdenticalPasswords(props.userPassword, repeatedPassword)}
 					className="w-80 h-[3.25rem]"
 					label="ZAREJESTRUJ SIĘ"
 					onClick={onRegisterClickHandler}
