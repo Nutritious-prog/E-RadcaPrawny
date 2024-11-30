@@ -13,6 +13,9 @@ import React, {FC, ReactElement, useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {StyledDocumentEditor} from "./DocumentEditor.style";
 import { DocumentEditorService } from "./DocumentEditor.service";
+import {
+	FormOutlined,
+} from "@ant-design/icons";
 
 export const DocumentEditor: FC = (): ReactElement => {
 	const editorViewRef = useRef<EditorViewProps>(null);
@@ -20,47 +23,44 @@ export const DocumentEditor: FC = (): ReactElement => {
 	const [uploadVisible, setUploadVisible] = useState<boolean>(false);
 	const [documents, setDocuments] = useState<DocumentItem[]>([]);
 	const [editorContent, setEditorContent] = useState<string>("");
+	const [legalActs, setLegalActs] = useState<LegalActDTO[]>([]);
+	const [selectedTags, setSelectedTags] = useState<LegalActTagDTO[]>([]);
 
 	const role: UserRole = useSelector((state: RootState) => state.user.role);
 	const token: string = useSelector((state: RootState) => state.user.token);
 	const isAdmin: boolean = role === UserRole.ROLE_ADMIN;
 
 	useEffect(() => {
-		fetchDocuments();
 		fetchLegalActs();
 	}, []);
-
-	const fetchDocuments = async () => {
-		const data: DocumentItem[] = mockDocumentsResponse.map((item) => ({
-			...item,
-			icon: mapIcon(item.icon),
-			children:
-				"children" in item
-					? (item.children as DocumentItem[])?.map((child: DocumentItem) => ({
-							...child,
-							icon: mapIcon(child.icon),
-					  }))
-					: undefined,
-		}));
-		setDocuments(data);
-	};
 
 	const fetchLegalActs = async () => {
 		console.log("token:", token);
         const response = await DocumentEditorService.getLegalActs(token);
         if (response.success) {
             const legalActs = response.response;
+			setLegalActs(legalActs);
+            const documentItems: MenuItem[] = legalActs.map((act) => ({
+                key: act.id.toString(),
+                icon: <FormOutlined />,
+                label: act.title,
+            }));
+            setDocuments(documentItems);
             if (legalActs.length > 0) {
                 setEditorContent(legalActs[0].textContent || "");
+				setSelectedTags(legalActs[0].legalActTags);
             }
         }
     };
 
 
 	const handleMenuClick = ({key}: {key: string}) => {
-		if (isAdmin && key === "1") {
-			setUploadVisible(true);
-		}
+		const selectedAct = legalActs.find((act) => act.id.toString() === key);
+		console.log("selectedAct:", selectedAct);
+        if (selectedAct) {
+            setEditorContent(selectedAct.textContent || "");
+			setSelectedTags(selectedAct.legalActTags);
+        }
 	};
 
 	return (
@@ -76,7 +76,7 @@ export const DocumentEditor: FC = (): ReactElement => {
 						<EditorView ref={editorViewRef} editorContent={editorContent} />
 					</div>
 					<div className="w-3/12 h-full">
-						<ActionsBar />
+						<ActionsBar tags={selectedTags} />
 					</div>
 				</div>
 			</div>
