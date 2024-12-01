@@ -1,40 +1,43 @@
-import React, {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
-import {StyledEditorView} from "./EditorView.style";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { StyledEditorView } from "./EditorView.style";
 
 export interface EditorViewProps {
-	applyFormatting: (command: string) => void;
-	editorContent: string;
+    applyFormatting: (command: string) => void;
+    editorContent: string;
 }
 
-export const EditorView = forwardRef<EditorViewProps, { editorContent: string }>((props, ref) => {
+export const EditorView = forwardRef<
+    EditorViewProps,
+    { editorContent: string; onContentChange: (content: string) => void }
+>((props, ref) => {
     const editorRef = useRef<HTMLDivElement>(null);
 
-	// useImperativeHandle(ref, () => ({
-	// 	// to be continued
-	// 	applyFormatting(command) {
-	// 		document.execCommand(command, false);
-	// 		editorRef.current?.focus();
-	// 	},
-	// }));
+    useImperativeHandle(ref, () => ({
+        applyFormatting(command) {
+            document.execCommand(command, false);
+            editorRef.current?.focus();
+        },
+    }));
 
-	useEffect(() => {
-        if (editorRef.current) {
+    useEffect(() => {
+        if (editorRef.current && editorRef.current.innerHTML !== props.editorContent) {
             editorRef.current.innerHTML = props.editorContent;
         }
     }, [props.editorContent]);
 
-	const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
-		// to be continued
-		console.log("Content:", e.currentTarget.innerHTML);
-	};
+    const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
+        const content = e.currentTarget.innerHTML;
+        props.onContentChange(content);
+    };
 
-	return (
-		<StyledEditorView
-			ref={editorRef}
-			contentEditable={true}
-			suppressContentEditableWarning={true}
-			onInput={handleInput}>
-			Start editing here...
-		</StyledEditorView>
-	);
+    return (
+        <StyledEditorView
+            ref={editorRef}
+            contentEditable={true}
+            suppressContentEditableWarning={true}
+            onInput={handleInput}
+        >
+            {props.editorContent}
+        </StyledEditorView>
+    );
 });

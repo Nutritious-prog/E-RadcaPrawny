@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { StyledDocumentEditor } from "./DocumentEditor.style";
 import { DocumentEditorService } from "./DocumentEditor.service";
 import { FormOutlined } from "@ant-design/icons";
-import { LegalActDTO, LegalActTagDTO } from "./DocumentEditor.dto";
+import { LegalActContentDTO, LegalActDTO, LegalActTagDTO } from "./DocumentEditor.dto";
 import { toast } from "react-toastify";
 
 export const DocumentEditor: FC = (): ReactElement => {
@@ -64,76 +64,82 @@ export const DocumentEditor: FC = (): ReactElement => {
     };
 
     const handleTagChange = (nextSelectedTags: string[]) => {
-        const updatedTags = nextSelectedTags.map((tagName, index) => ({
-            tag: {
-                id: index + 1, 
-                name: tagName,
-                createdAt: new Date(),
-                modifiedAt: new Date(),
-            },
-            addedAt: new Date(),
-        } as LegalActTagDTO));
+        const updatedTags = nextSelectedTags.map(
+            (tagName, index) =>
+                ({
+                    tag: {
+                        id: index + 1,
+                        name: tagName,
+                        createdAt: new Date(),
+                        modifiedAt: new Date(),
+                    },
+                    addedAt: new Date(),
+                }) as LegalActTagDTO
+        );
         setSelectedTags(updatedTags);
         console.log("updatedTags", updatedTags);
     };
 
+    const handleContentChange = (content: string) => {
+        setEditorContent(content);
+        console.log("content", content);
+    };
+
     const handleSave = async () => {
         if (selectedActId !== null) {
-            const updatedTags = selectedTags.map(tag => ({
-                ...tag,
-                addedAt: new Date(), 
-            }));
-            console.log("updatedTags", updatedTags);
+            // Updating whole legal act content if user is admin
+            if (isAdmin) {
+                const updatedTags = selectedTags.map((tag) => ({
+                    ...tag,
+                    addedAt: new Date(),
+                }));
+                console.log("updatedTags", updatedTags);
 
-            const updatedAct: LegalActDTO = {
-                ...legalActs.find((act) => act.id === selectedActId)!,
-                textContent: editorContent,
-                legalActTags: selectedTags,
-            };
-            console.log("updatedAct", updatedAct);
+                const updatedAct: LegalActDTO = {
+                    ...legalActs.find((act) => act.id === selectedActId)!,
+                    textContent: editorContent,
+                    legalActTags: selectedTags,
+                };
+                console.log("updatedAct", updatedAct);
 
-            const formattedAct = {
-                id: updatedAct.id,
-                title: updatedAct.title,
-                textContent: updatedAct.textContent,
-                legalActTags: updatedAct.legalActTags.map(tag => ({
-                    tag: {
-                        id: tag.tag.id,
-                        name: tag.tag.name,
-                        createdAt: tag.tag.createdAt,
-                        modifiedAt: tag.tag.modifiedAt,
-                    },
-                    addedAt: tag.addedAt,
-                })),
-                createdAt: updatedAct.createdAt,
-                modifiedAt: updatedAct.modifiedAt,
-            };
-            console.log("formattedAct", formattedAct);
+                const response = await DocumentEditorService.updateLegalAct(selectedActId, updatedAct);
+                if (response.success) {
+                    toast.success("Zaktualizowano dokument");
+                    fetchLegalActs();
+                } else {
+                    toast.error("Błąd podczas aktualizacji dokumentu");
+                }
 
-            const response = await DocumentEditorService.updateLegalAct(selectedActId, formattedAct);
-            if (response.success) {
-                toast.success("Zaktualizowano dokument");
-                fetchLegalActs();
+                const currentTags = legalActs.find((act) => act.id === selectedActId)!.legalActTags;
+                const currentTagNames = currentTags.map((tag) => tag.tag.name);
+                const newTagNames = updatedTags.map((tag) => tag.tag.name);
+
+                const tagsToAdd = updatedTags.filter((tag) => !currentTagNames.includes(tag.tag.name));
+                const tagsToRemove = currentTags.filter((tag) => !newTagNames.includes(tag.tag.name));
+
+                console.log("Tags to add:", tagsToAdd);
+                console.log("Tags to remove:", tagsToRemove);
+
+                if (tagsToAdd.length > 0) {
+                    await DocumentEditorService.addMultipleTagsToLegalAct(selectedActId, tagsToAdd);
+                }
+
+                if (tagsToRemove.length > 0) {
+                    await DocumentEditorService.removeMultipleTagsFromLegalAct(selectedActId, tagsToRemove);
+                }
+            // Updating only content if user is not admin
             } else {
-                toast.error("Błąd podczas aktualizacji dokumentu");
-            }
+                const legalActContentDTO: LegalActContentDTO = {
+                    content: editorContent,
+                };
 
-            const currentTags = legalActs.find((act) => act.id === selectedActId)!.legalActTags;
-            const currentTagNames = currentTags.map(tag => tag.tag.name);
-            const newTagNames = updatedTags.map(tag => tag.tag.name);
-
-            const tagsToAdd = updatedTags.filter(tag => !currentTagNames.includes(tag.tag.name));
-            const tagsToRemove = currentTags.filter(tag => !newTagNames.includes(tag.tag.name));
-
-            console.log('Tags to add:', tagsToAdd);
-            console.log('Tags to remove:', tagsToRemove);
-
-            if (tagsToAdd.length > 0) {
-                await DocumentEditorService.addMultipleTagsToLegalAct(selectedActId, tagsToAdd);
-            }
-
-            if (tagsToRemove.length > 0) {
-                await DocumentEditorService.removeMultipleTagsFromLegalAct(selectedActId, tagsToRemove);
+                const response = await DocumentEditorService.updateLegalActContent(selectedActId, legalActContentDTO);
+                if (response.success) {
+                    toast.success("Zaktualizowano treść dokumentu");
+                    fetchLegalActs();
+                } else {
+                    toast.error("Błąd podczas aktualizacji treści dokumentu");
+                }
             }
         }
     };
@@ -148,14 +154,14 @@ export const DocumentEditor: FC = (): ReactElement => {
                 <div className="w-full flex-grow flex justify-end h-full">
                     <div className="w-9/12 h-[90%]">
                         <TextTools editorRef={editorViewRef} />
-                        <EditorView ref={editorViewRef} editorContent={editorContent} />
+                        <EditorView
+                            ref={editorViewRef}
+                            editorContent={editorContent}
+                            onContentChange={handleContentChange}
+                        />
                     </div>
                     <div className="w-3/12 h-full">
-                        <ActionsBar
-                            tags={selectedTags}
-                            onSave={handleSave}
-                            onTagChange={handleTagChange}
-                        />
+                        <ActionsBar tags={selectedTags} onSave={handleSave} onTagChange={handleTagChange} />
                     </div>
                 </div>
             </div>
