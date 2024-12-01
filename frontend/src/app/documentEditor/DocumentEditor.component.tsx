@@ -63,19 +63,77 @@ export const DocumentEditor: FC = (): ReactElement => {
         }
     };
 
+    const handleTagChange = (nextSelectedTags: string[]) => {
+        const updatedTags = nextSelectedTags.map((tagName, index) => ({
+            tag: {
+                id: index + 1, 
+                name: tagName,
+                createdAt: new Date(),
+                modifiedAt: new Date(),
+            },
+            addedAt: new Date(),
+        } as LegalActTagDTO));
+        setSelectedTags(updatedTags);
+        console.log("updatedTags", updatedTags);
+    };
+
     const handleSave = async () => {
         if (selectedActId !== null) {
+            const updatedTags = selectedTags.map(tag => ({
+                ...tag,
+                addedAt: new Date(), 
+            }));
+            console.log("updatedTags", updatedTags);
+
             const updatedAct: LegalActDTO = {
                 ...legalActs.find((act) => act.id === selectedActId)!,
                 textContent: editorContent,
                 legalActTags: selectedTags,
             };
-            const response = await DocumentEditorService.updateLegalAct(selectedActId, updatedAct);
+            console.log("updatedAct", updatedAct);
+
+            const formattedAct = {
+                id: updatedAct.id,
+                title: updatedAct.title,
+                textContent: updatedAct.textContent,
+                legalActTags: updatedAct.legalActTags.map(tag => ({
+                    tag: {
+                        id: tag.tag.id,
+                        name: tag.tag.name,
+                        createdAt: tag.tag.createdAt,
+                        modifiedAt: tag.tag.modifiedAt,
+                    },
+                    addedAt: tag.addedAt,
+                })),
+                createdAt: updatedAct.createdAt,
+                modifiedAt: updatedAct.modifiedAt,
+            };
+            console.log("formattedAct", formattedAct);
+
+            const response = await DocumentEditorService.updateLegalAct(selectedActId, formattedAct);
             if (response.success) {
                 toast.success("Zaktualizowano dokument");
                 fetchLegalActs();
             } else {
                 toast.error("Błąd podczas aktualizacji dokumentu");
+            }
+
+            const currentTags = legalActs.find((act) => act.id === selectedActId)!.legalActTags;
+            const currentTagNames = currentTags.map(tag => tag.tag.name);
+            const newTagNames = updatedTags.map(tag => tag.tag.name);
+
+            const tagsToAdd = updatedTags.filter(tag => !currentTagNames.includes(tag.tag.name));
+            const tagsToRemove = currentTags.filter(tag => !newTagNames.includes(tag.tag.name));
+
+            console.log('Tags to add:', tagsToAdd);
+            console.log('Tags to remove:', tagsToRemove);
+
+            if (tagsToAdd.length > 0) {
+                await DocumentEditorService.addMultipleTagsToLegalAct(selectedActId, tagsToAdd);
+            }
+
+            if (tagsToRemove.length > 0) {
+                await DocumentEditorService.removeMultipleTagsFromLegalAct(selectedActId, tagsToRemove);
             }
         }
     };
@@ -96,7 +154,7 @@ export const DocumentEditor: FC = (): ReactElement => {
                         <ActionsBar
                             tags={selectedTags}
                             onSave={handleSave}
-                            initialTags={selectedTags.map((tag) => tag.tag.name)}
+                            onTagChange={handleTagChange}
                         />
                     </div>
                 </div>
