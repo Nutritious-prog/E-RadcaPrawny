@@ -51,7 +51,7 @@ export const DocumentEditorService = {
         return response.json();
     },
 
-    addTagToLegalAct: async (id: number, tag: LegalActTagDTO): Promise<ApiResponse<LegalActDTO>> => {
+    addTagToLegalAct: async (id: number, tag: { name: string }): Promise<ApiResponse<LegalActDTO>> => {
         const token = getToken();
         const response = await fetch(`${API_URL}/${id}/tags`, {
             method: "POST",
@@ -64,7 +64,7 @@ export const DocumentEditorService = {
         return response.json();
     },
 
-    addMultipleTagsToLegalAct: async (id: number, tags: LegalActTagDTO[]): Promise<ApiResponse<LegalActDTO>> => {
+    addMultipleTagsToLegalAct: async (id: number, tags: {name: string}[]): Promise<ApiResponse<LegalActDTO>> => {
         const token = getToken();
         const requestBody = JSON.stringify(tags);
         console.log("Request Body:", requestBody);
@@ -92,7 +92,7 @@ export const DocumentEditorService = {
         return response.json();
     },
 
-    removeMultipleTagsFromLegalAct: async (id: number, tags: LegalActTagDTO[]): Promise<ApiResponse<LegalActDTO>> => {
+    removeMultipleTagsFromLegalAct: async (id: number, tags: { name: string }[]): Promise<ApiResponse<LegalActDTO>> => {
         const token = getToken();
         const response = await fetch(`${API_URL}/${id}/tags/multiple`, {
             method: "DELETE",

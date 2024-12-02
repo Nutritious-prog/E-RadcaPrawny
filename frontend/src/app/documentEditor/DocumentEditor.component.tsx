@@ -1,20 +1,20 @@
-import { Modal, Upload } from "antd";
-import { RootState } from "app/redux/store";
-import { UserRole } from "app/redux/userRole/UserRole.type";
-import { ActionsBar } from "components/DocumentEditor/ActionsBar/ActionsBar.component";
-import { EditorView, EditorViewProps } from "components/DocumentEditor/EditorView/EditorView.component";
-import { TextTools } from "components/DocumentEditor/TextTools/TextTools.component";
-import { Header } from "components/Header/Header.component";
-import { DocumentItem, MenuItem } from "components/Sidebar/Menu/Menu.utils";
-import { Sidebar } from "components/Sidebar/Sidebar.component";
-import { SidebarType } from "components/Sidebar/Sidebar.utils";
-import React, { FC, ReactElement, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { StyledDocumentEditor } from "./DocumentEditor.style";
-import { DocumentEditorService } from "./DocumentEditor.service";
-import { FormOutlined } from "@ant-design/icons";
-import { LegalActContentDTO, LegalActDTO, LegalActTagDTO } from "./DocumentEditor.dto";
-import { toast } from "react-toastify";
+import {Modal, Upload} from "antd";
+import {RootState} from "app/redux/store";
+import {UserRole} from "app/redux/userRole/UserRole.type";
+import {ActionsBar} from "components/DocumentEditor/ActionsBar/ActionsBar.component";
+import {EditorView, EditorViewProps} from "components/DocumentEditor/EditorView/EditorView.component";
+import {TextTools} from "components/DocumentEditor/TextTools/TextTools.component";
+import {Header} from "components/Header/Header.component";
+import {DocumentItem, MenuItem} from "components/Sidebar/Menu/Menu.utils";
+import {Sidebar} from "components/Sidebar/Sidebar.component";
+import {SidebarType} from "components/Sidebar/Sidebar.utils";
+import React, {FC, ReactElement, useEffect, useRef, useState} from "react";
+import {useSelector} from "react-redux";
+import {StyledDocumentEditor} from "./DocumentEditor.style";
+import {DocumentEditorService} from "./DocumentEditor.service";
+import {FormOutlined} from "@ant-design/icons";
+import {LegalActContentDTO, LegalActDTO, LegalActTagDTO} from "./DocumentEditor.dto";
+import {toast} from "react-toastify";
 
 export const DocumentEditor: FC = (): ReactElement => {
     const editorViewRef = useRef<EditorViewProps>(null);
@@ -41,7 +41,7 @@ export const DocumentEditor: FC = (): ReactElement => {
             setLegalActs(legalActs);
             const documentItems: MenuItem[] = legalActs.map((act) => ({
                 key: act.id.toString(),
-                icon: <FormOutlined />,
+                icon: <FormOutlined/>,
                 label: act.title,
             }));
             setDocuments(documentItems);
@@ -53,7 +53,7 @@ export const DocumentEditor: FC = (): ReactElement => {
         }
     };
 
-    const handleMenuClick = ({ key }: { key: string }) => {
+    const handleMenuClick = ({key}: { key: string }) => {
         const selectedAct = legalActs.find((act) => act.id.toString() === key);
         console.log("selectedAct", selectedAct);
         if (selectedAct) {
@@ -84,71 +84,74 @@ export const DocumentEditor: FC = (): ReactElement => {
 
     const handleSave = async () => {
         if (selectedActId !== null) {
-            // Updating whole legal act content if user is admin
-            if (isAdmin) {
-                const updatedTags = selectedTags.map((tag) => ({
-                    ...tag,
-                }));
-                console.log("updatedTags", updatedTags);
+            // Updating content regardless of user role
+            const updatedContentDTO: LegalActContentDTO = {
+                content: editorContent
+            }
 
-                const updatedAct: LegalActDTO = {
-                    ...legalActs.find((act) => act.id === selectedActId)!,
-                    textContent: editorContent,
-                    legalActTags: selectedTags,
-                };
-                console.log("updatedAct", updatedAct);
-
-                const response = await DocumentEditorService.updateLegalAct(selectedActId, updatedAct);
-                if (response.success) {
-                    toast.success("Zaktualizowano dokument");
-                    fetchLegalActs();
-                } else {
-                    toast.error("Błąd podczas aktualizacji dokumentu");
-                }
-
-                const currentTags = legalActs.find((act) => act.id === selectedActId)!.legalActTags;
-                const currentTagNames = currentTags.map((tag) => tag.tag.name);
-                const newTagNames = updatedTags.map((tag) => tag.tag.name);
-
-                const tagsToAdd = updatedTags.filter((tag) => !currentTagNames.includes(tag.tag.name));
-                const tagsToRemove = currentTags.filter((tag) => !newTagNames.includes(tag.tag.name));
-
-                console.log("Tags to add:", tagsToAdd);
-                console.log("Tags to remove:", tagsToRemove);
-
-                if (tagsToAdd.length === 1) {
-                    await DocumentEditorService.addTagToLegalAct(selectedActId, tagsToAdd[0]);
-                } else if (tagsToAdd.length > 0) {
-                    await DocumentEditorService.addMultipleTagsToLegalAct(selectedActId, tagsToAdd);
-                }
-
-                if (tagsToRemove.length > 0) {
-                    await DocumentEditorService.removeMultipleTagsFromLegalAct(selectedActId, tagsToRemove);
-                }
-            // Updating only content if user is not admin
-            } else {
-                const legalActContentDTO: LegalActContentDTO = {
-                    content: editorContent,
-                };
-
-                const response = await DocumentEditorService.updateLegalActContent(selectedActId, legalActContentDTO);
+            try {
+                const response = await DocumentEditorService.updateLegalActContent(selectedActId, updatedContentDTO);
                 if (response.success) {
                     toast.success("Zaktualizowano treść dokumentu");
+                    // update tagów
+                    if(isAdmin) {
+                        const updatedTags = selectedTags.map((tag) => ({
+                            name: tag.tag.name
+                        }));
+                        console.log("updatedTags", updatedTags);
+                        const currentTags = legalActs.find((act) => act.id === selectedActId)!.legalActTags;
+                        const currentTagNames = currentTags.map((tag) => tag.tag.name);
+                        const newTagNames = updatedTags.map((tag) => tag.name);
+
+                        const tagsToAdd = updatedTags.filter((tag) => !currentTagNames.includes(tag.name));
+                        const tagsToRemove = currentTags.filter((tag) => !newTagNames.includes(tag.tag.name)).map(tagDTO => {
+                            return {
+                                name: tagDTO.tag.name
+                            }
+                        });
+
+                        console.log("Tags to add:", tagsToAdd);
+                        console.log("Tags to remove:", tagsToRemove);
+                        if (tagsToRemove.length > 0) {
+                            const removeResponse = await DocumentEditorService.removeMultipleTagsFromLegalAct(selectedActId, tagsToRemove);
+                            if (removeResponse.success)
+                            toast.success("Poprawnie usunięto tagi")
+                        }
+                        if (tagsToAdd.length === 1) {
+                            const addTagResponse = await DocumentEditorService.addTagToLegalAct(selectedActId, tagsToAdd[0]);
+                            if (addTagResponse.success) {
+                                toast.success("Dodano nowy tag");
+                            }
+                        } else if (tagsToAdd.length > 1) {
+                            const addTagResponse = await DocumentEditorService.addMultipleTagsToLegalAct(selectedActId, tagsToAdd);
+                            if (addTagResponse.success) {
+                                toast.success(`Dodano nowe tagi (${tagsToAdd.length})`);
+                            }
+
+                        }
+
+                    }
                     fetchLegalActs();
                 } else {
                     toast.error("Błąd podczas aktualizacji treści dokumentu");
                 }
+            } catch (error) {
+                toast.error("Błąd podczas aktualizacji treści dokumentu");
             }
+
+
+
+
         }
     };
 
     return (
         <StyledDocumentEditor>
             <div className="w-3/12 h-full">
-                <Sidebar type={SidebarType.DOCUMENTS} menuItems={documents} onMainMenuClickHandler={handleMenuClick} />
+                <Sidebar type={SidebarType.DOCUMENTS} menuItems={documents} onMainMenuClickHandler={handleMenuClick}/>
             </div>
             <div className="w-9/12 flex flex-col">
-                <Header />
+                <Header/>
                 <div className="w-full flex-grow flex justify-end h-full">
                     <div className="w-9/12 h-[90%]">
                         {/*<TextTools editorRef={editorViewRef} />*/}
@@ -159,7 +162,7 @@ export const DocumentEditor: FC = (): ReactElement => {
                         />
                     </div>
                     <div className="w-3/12 h-full">
-                        <ActionsBar tags={selectedTags} onSave={handleSave} onTagChange={handleTagChange} />
+                        <ActionsBar tags={selectedTags} onSave={handleSave} onTagChange={handleTagChange}/>
                     </div>
                 </div>
             </div>
@@ -172,7 +175,7 @@ export const DocumentEditor: FC = (): ReactElement => {
                     footer={null}
                     centered={true}
                 >
-                    <Upload />
+                    <Upload/>
                 </Modal>
             )}
         </StyledDocumentEditor>
