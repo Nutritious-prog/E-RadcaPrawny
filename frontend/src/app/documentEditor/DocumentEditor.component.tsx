@@ -65,15 +65,12 @@ export const DocumentEditor: FC = (): ReactElement => {
 
     const handleTagChange = (nextSelectedTags: string[]) => {
         const updatedTags = nextSelectedTags.map(
-            (tagName, index) =>
+            (tagName) =>
                 ({
                     tag: {
-                        id: index + 1,
+                        id: selectedActId,
                         name: tagName,
-                        createdAt: new Date(),
-                        modifiedAt: new Date(),
-                    },
-                    addedAt: new Date(),
+                    }
                 }) as LegalActTagDTO
         );
         setSelectedTags(updatedTags);
@@ -91,7 +88,6 @@ export const DocumentEditor: FC = (): ReactElement => {
             if (isAdmin) {
                 const updatedTags = selectedTags.map((tag) => ({
                     ...tag,
-                    addedAt: new Date(),
                 }));
                 console.log("updatedTags", updatedTags);
 
@@ -120,7 +116,9 @@ export const DocumentEditor: FC = (): ReactElement => {
                 console.log("Tags to add:", tagsToAdd);
                 console.log("Tags to remove:", tagsToRemove);
 
-                if (tagsToAdd.length > 0) {
+                if (tagsToAdd.length === 1) {
+                    await DocumentEditorService.addTagToLegalAct(selectedActId, tagsToAdd[0]);
+                } else if (tagsToAdd.length > 0) {
                     await DocumentEditorService.addMultipleTagsToLegalAct(selectedActId, tagsToAdd);
                 }
 
@@ -153,7 +151,7 @@ export const DocumentEditor: FC = (): ReactElement => {
                 <Header />
                 <div className="w-full flex-grow flex justify-end h-full">
                     <div className="w-9/12 h-[90%]">
-                        <TextTools editorRef={editorViewRef} />
+                        {/*<TextTools editorRef={editorViewRef} />*/}
                         <EditorView
                             ref={editorViewRef}
                             editorContent={editorContent}
