@@ -1,5 +1,6 @@
 package com.jpwo.legalchatbot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jpwo.legalchatbot.model.ids.LegalActTagId;
 import jakarta.persistence.*;
@@ -27,7 +28,7 @@ public class LegalActTag {
     @ManyToOne
     @MapsId("legalActId")
     @JoinColumn(name = "legal_act_id")
-    @JsonIgnore
+    @JsonBackReference
     private LegalAct legalAct;
 
     @ManyToOne
