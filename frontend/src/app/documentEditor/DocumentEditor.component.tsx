@@ -34,23 +34,36 @@ export const DocumentEditor: FC = (): ReactElement => {
         fetchLegalActs();
     }, []);
 
-    const fetchLegalActs = async () => {
+    const fetchLegalActs = async (): Promise<LegalActDTO[]> => {
         const response = await DocumentEditorService.getLegalActs(token);
         if (response.success) {
             const legalActs = response.response;
-            setLegalActs(legalActs);
             const documentItems: MenuItem[] = legalActs.map((act) => ({
                 key: act.id.toString(),
-                icon: <FormOutlined/>,
+                icon: <FormOutlined />,
                 label: act.title,
             }));
             setDocuments(documentItems);
-            if (legalActs.length > 0) {
-                setEditorContent(legalActs[0].textContent || "");
-                setSelectedTags(legalActs[0].legalActTags);
-            }
+            setLegalActs(legalActs);
+            return legalActs;
+        }
+        return [];
+    };
+
+    const refreshDocumentState = async (selectedActIdToPreserve: number | null) => {
+        const legalActs = await fetchLegalActs();
+
+        const selectedAct = selectedActIdToPreserve
+            ? legalActs.find((act) => act.id === selectedActIdToPreserve)
+            : legalActs[0];
+
+        if (selectedAct) {
+            setEditorContent(selectedAct.textContent || "");
+            setSelectedTags(selectedAct.legalActTags);
+            setSelectedActId(selectedAct.id);
         }
     };
+
 
     const handleMenuClick = ({key}: { key: string }) => {
         const selectedAct = legalActs.find((act) => act.id.toString() === key);
@@ -80,51 +93,47 @@ export const DocumentEditor: FC = (): ReactElement => {
 
     const handleSave = async () => {
         if (selectedActId !== null) {
-            // Updating content regardless of user role
             const updatedContentDTO: LegalActContentDTO = {
-                content: editorContent
-            }
+                content: editorContent,
+            };
 
             try {
                 const response = await DocumentEditorService.updateLegalActContent(selectedActId, updatedContentDTO);
                 if (response.success) {
                     toast.success("Zaktualizowano treść dokumentu");
-                    // update tagów
-                    if(isAdmin) {
+
+                    if (isAdmin) {
                         const updatedTags = selectedTags.map((tag) => ({
-                            name: tag.tag.name
+                            name: tag.tag.name,
                         }));
+
                         const currentTags = legalActs.find((act) => act.id === selectedActId)!.legalActTags;
                         const currentTagNames = currentTags.map((tag) => tag.tag.name);
                         const newTagNames = updatedTags.map((tag) => tag.name);
 
                         const tagsToAdd = updatedTags.filter((tag) => !currentTagNames.includes(tag.name));
-                        const tagsToRemove = currentTags.filter((tag) => !newTagNames.includes(tag.tag.name)).map(tagDTO => {
-                            return {
-                                name: tagDTO.tag.name
-                            }
-                        });
+                        const tagsToRemove = currentTags
+                            .filter((tag) => !newTagNames.includes(tag.tag.name))
+                            .map((tagDTO) => ({ name: tagDTO.tag.name }));
 
                         if (tagsToRemove.length > 0) {
-                            const removeResponse = await DocumentEditorService.removeMultipleTagsFromLegalAct(selectedActId, tagsToRemove);
-                            if (removeResponse.success)
-                            toast.success("Poprawnie usunięto tagi")
+                            const removeResponse = await DocumentEditorService.removeMultipleTagsFromLegalAct(
+                                selectedActId,
+                                tagsToRemove
+                            );
+                            if (removeResponse.success) toast.success("Poprawnie usunięto tagi");
                         }
-                        if (tagsToAdd.length === 1) {
-                            const addTagResponse = await DocumentEditorService.addTagToLegalAct(selectedActId, tagsToAdd[0]);
-                            if (addTagResponse.success) {
-                                toast.success("Dodano nowy tag");
-                            }
-                        } else if (tagsToAdd.length > 1) {
-                            const addTagResponse = await DocumentEditorService.addMultipleTagsToLegalAct(selectedActId, tagsToAdd);
+                        if (tagsToAdd.length > 0) {
+                            const addTagResponse =
+                                tagsToAdd.length === 1
+                                    ? await DocumentEditorService.addTagToLegalAct(selectedActId, tagsToAdd[0])
+                                    : await DocumentEditorService.addMultipleTagsToLegalAct(selectedActId, tagsToAdd);
                             if (addTagResponse.success) {
                                 toast.success(`Dodano nowe tagi (${tagsToAdd.length})`);
                             }
-
                         }
-
                     }
-                    fetchLegalActs();
+                    await refreshDocumentState(selectedActId);
                 } else {
                     toast.error("Błąd podczas aktualizacji treści dokumentu");
                 }
@@ -133,6 +142,7 @@ export const DocumentEditor: FC = (): ReactElement => {
             }
         }
     };
+
 
     return (
         <StyledDocumentEditor>

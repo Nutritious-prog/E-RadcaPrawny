@@ -30,7 +30,7 @@ export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactEleme
                         src={DocumentEditorImage}
                         alt="Dokument wychodzący z laptopa"
                         height="100px"
-                        className="mt-auto z-10"
+                        className="!mt-auto z-10"
                     />
                 ) : (
                     <img
