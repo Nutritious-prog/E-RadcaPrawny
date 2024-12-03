@@ -5,13 +5,13 @@ export const StyledHeader = styled.header`
     height: 10vh;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     background-color: ${COLORS.WHITE};
     padding: 2rem;
 
     .header-nav {
-        width: 70rem;
+        width:  100%;
         font-family: Poppins, sans-serif;
         font-weight: 600;
         font-size: 1.4rem;

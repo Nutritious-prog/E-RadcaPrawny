@@ -1,6 +1,7 @@
 package com.jpwo.legalchatbot.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.jpwo.legalchatbot.model.ids.LegalActTagId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -47,13 +48,22 @@ public class LegalAct {
     @Column(name = "modified_at")
     private Date modifiedAt;
 
-    public void updateTo(LegalAct legalAct) {
-        this.title = legalAct.getTitle();
-        this.textContent = legalAct.getTextContent();
-        this.legalActTags = legalAct.getLegalActTags();
+    public void updateTo(LegalAct newLegalAct) {
+        this.title = newLegalAct.getTitle();
+        this.textContent = newLegalAct.getTextContent();
         this.modifiedAt = new Date();
 
-
-
+        // Clear and rebuild tags
+        this.legalActTags.clear();
+        if (newLegalAct.getLegalActTags() != null) {
+            for (LegalActTag tag : newLegalAct.getLegalActTags()) {
+                tag.setLegalAct(this); // Set back-reference
+                if (tag.getId() == null) {
+                    tag.setId(new LegalActTagId(this.getId(), tag.getTag().getId()));
+                }
+                this.legalActTags.add(tag);
+            }
+        }
     }
+
 }

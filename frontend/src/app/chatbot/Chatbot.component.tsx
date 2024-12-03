@@ -24,7 +24,6 @@ export const Chatbot: FC = (): ReactElement => {
 
 	const handleMenuClick = ({key}: {key: string}) => {
 		if (key === "1") {
-			console.log("Open new chat");
 		}
 	};
 

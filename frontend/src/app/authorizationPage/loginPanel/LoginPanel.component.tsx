@@ -35,11 +35,11 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 			await AuthorizationPageService.createAuthenticationTokenRest(loginRequestDTO);
 
 		if (apiResponse.success) {
-			toast.success(apiResponse.message);
+			toast.success("Zalogowano pomyślnie");
 			dispatch(setUser({role: apiResponse.response.role, token: apiResponse.response.token}));
 			navigate("/chat");
 		} else {
-			toast.error(apiResponse.message);
+			toast.error("Nie udało się zalogować. Spróbuj ponownie");
 		}
 	};
 
@@ -49,13 +49,12 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 
 	const loginMainSection: ReactElement = (
 		<div className="flex flex-col w-1/2 h-full items-center m-auto">
-			<div className="flex w-full text-extra_lg px-12 mt-[2rem]">{`LOGO`}</div>
-			<div className="flex flex-col w-full h-full items-center gap-y-12 m-[-6rem] justify-center">
-				<div className="flex justify-center text-BLACK text-xl font-extrabold text-justify font-roboto-serif font-extrabold">
+			<div className="flex flex-col w-full h-full items-center gap-y-12 justify-center">
+				<div className="flex justify-center text-BLACK text-extra_lg font-extrabold text-justify font-roboto-serif">
 					{`Witamy!`}
 				</div>
 				<CustomInput
-					className="w-80 h-12"
+					className="w-8/12 h-12"
 					label="Email"
 					inputType="email"
 					icon={faEnvelope}
@@ -64,7 +63,7 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 					setValue={props.setUserEmail}
 				/>
 				<CustomInput
-					className="w-80 h-12"
+					className="w-8/12 h-12"
 					label="Hasło"
 					inputType="password"
 					icon={faLock}
@@ -76,7 +75,7 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 					buttonColor={COLORS.BLACK}
 					labelColor={COLORS.WHITE}
 					borderColor={COLORS.BLACK}
-					className="w-80 h-[3.25rem]"
+					className="w-8/12 h-[3.25rem]"
 					label="ZALOGUJ SIĘ"
 					onClick={onLoginClickHandler}
 					fontBold
@@ -100,7 +99,7 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 			<CustomButton
 				buttonColor={COLORS.TRANSPARENT}
 				labelColor={COLORS.BLACK}
-				className="w-80 h-[3.25rem]"
+				className="w-8/12 h-[3.25rem]"
 				label="ZAREJESTRUJ SIĘ"
 				onClick={props.onChangePanelClickHandler}
 				fontBold

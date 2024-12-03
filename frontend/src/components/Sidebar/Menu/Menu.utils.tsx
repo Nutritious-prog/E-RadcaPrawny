@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
 	FileTextOutlined,
 	FormOutlined,
@@ -10,7 +10,7 @@ import {
 
 export interface MenuItem {
 	key: string;
-	icon: string;
+	icon: ReactElement;
 	label: string;
 }
 
