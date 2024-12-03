@@ -1,6 +1,7 @@
 import {Menu} from "components/Sidebar/Menu/Menu.component";
 import React, {ReactElement} from "react";
 import DocumentEditorImage from "../../assets/images/DocumentEditorImage.png";
+import ChatImage from "../../assets/images/ChatImage.png";
 import Logo from "../../assets/images/Logo.png";
 import {MenuItem} from "./Menu/Menu.utils";
 import {StyledSidebar} from "./Sidebar.style";
@@ -21,7 +22,7 @@ export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactEleme
                 </span>
                 <Menu
                     type={props.type}
-                    className="z-20"
+                    className="z-20 max-h-[45%] overflow-y-auto"
                     menuItems={props.menuItems}
                     onMainMenuClickHandler={props.onMainMenuClickHandler}
                 />
@@ -34,9 +35,10 @@ export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactEleme
                     />
                 ) : (
                     <img
-                        src=""
+                        src={ChatImage}
                         alt="Chat"
-                        className="absolute bottom-0 left-0 mt-auto z-2 w-3/12 h-3/12"
+                        height="100px"
+                        className="!mt-auto z-10"
                     />
                 )}
             </div>

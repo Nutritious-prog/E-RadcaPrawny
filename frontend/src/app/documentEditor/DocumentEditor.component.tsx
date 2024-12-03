@@ -143,7 +143,6 @@ export const DocumentEditor: FC = (): ReactElement => {
         }
     };
 
-
     return (
         <StyledDocumentEditor>
             <div className="w-3/12 h-full">
@@ -152,15 +151,14 @@ export const DocumentEditor: FC = (): ReactElement => {
             <div className="w-9/12 flex flex-col">
                 <Header/>
                 <div className="w-full flex-grow flex justify-end h-full">
-                    <div className="w-9/12 h-[90%]">
-                        {/*<TextTools editorRef={editorViewRef} />*/}
+                    <div className="w-8/12 h-[90%]">
                         <EditorView
                             ref={editorViewRef}
                             editorContent={editorContent}
                             onContentChange={handleContentChange}
                         />
                     </div>
-                    <div className="w-3/12 h-full">
+                    <div className="min-w-[33.3%] w-fit h-full">
                         <ActionsBar tags={selectedTags} onSave={handleSave} onTagChange={handleTagChange}/>
                     </div>
                 </div>

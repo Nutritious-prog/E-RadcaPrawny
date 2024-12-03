@@ -40,11 +40,11 @@ export const ActionsBar: React.FC<ActionsBarProps> = ({ tags, onSave, onTagChang
             {isAdmin ? (
                 <>
                     <h2 className="actions-tag mb-2">
-                        <TagOutlined className="mr-2" /> SŁOWA KLUCZOWE
+                        <TagOutlined className="mr-2"/> SŁOWA KLUCZOWE
                     </h2>
-                    <div className="flex flex-wrap">
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(45%,2fr))] gap-1">
                         {tags.map((tag, index) => (
-                            <div key={index} className="w-1/2 p-2">
+                            <div key={index} className="p-0.5">
                                 <Tag
                                     label={tag.tag.name}
                                     checked={selectedTags.includes(tag.tag.name)}
@@ -53,7 +53,7 @@ export const ActionsBar: React.FC<ActionsBarProps> = ({ tags, onSave, onTagChang
                             </div>
                         ))}
                         {filteredMockTags.map((tag, index) => (
-                            <div key={index} className="w-1/2 p-2">
+                            <div key={index} className="p-0.5">
                                 <Tag
                                     label={tag.label}
                                     checked={selectedTags.includes(tag.label)}
@@ -66,12 +66,13 @@ export const ActionsBar: React.FC<ActionsBarProps> = ({ tags, onSave, onTagChang
             ) : (
                 <>
                     <h2 className="actions-tag mb-2">
-                        <TagOutlined className="mr-2" /> SŁOWA KLUCZOWE
+                        <TagOutlined className="mr-2"/> SŁOWA KLUCZOWE
                     </h2>
-                    <div className="flex flex-wrap">
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(45%,2fr))] gap-1">
                         {tags.map((tag, index) => (
-                            <div key={index} className="w-1/2 p-2">
-                                <Tag label={tag.tag.name} checked={true} onChange={() => {}} />
+                            <div key={index} className="p-2">
+                                <Tag label={tag.tag.name} checked={true} onChange={() => {
+                                }}/>
                             </div>
                         ))}
                     </div>
@@ -79,7 +80,7 @@ export const ActionsBar: React.FC<ActionsBarProps> = ({ tags, onSave, onTagChang
             )}
             {isAdmin && (
                 <div className="flex flex-col space-y-6 mt-12 justify-center items-center">
-                    {/* <CustomButton
+                {/* <CustomButton
                     onClick={handleDownload}
                     label="POBIERZ"
                     buttonColor={`${COLORS.MAIN_BACKGROUND}`}
@@ -94,7 +95,7 @@ export const ActionsBar: React.FC<ActionsBarProps> = ({ tags, onSave, onTagChang
                         buttonColor={`${COLORS.VERY_DARK_BLUE}`}
                         labelColor={`${COLORS.WHITE}`}
                         fontBold={true}
-                        className={"h-16 min-w-52 w-11/12"}
+                        className="h-16 min-w-12 w-11/12"
                     />
                 </div>
             )}

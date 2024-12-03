@@ -8,7 +8,7 @@ export const StyledTag = styled.div`
 
     .ant-tag {
         padding: 0.2rem 0.8rem 0.2rem 0.8rem;
-        width: 12rem;
+        width: 100%;
         text-align: center;
         background-color: ${COLORS.TURQUOISE};
     }
