@@ -1,6 +1,5 @@
 import {RootState} from "app/redux/store";
 import {UserRole} from "app/redux/userRole/UserRole.type";
-import {Tooltip} from "components/DocumentEditor/ActionsBar/Tooltip/Tooltip.component";
 import {Dropdown} from "components/Header/Dropdown/Dropdown.component";
 import React from "react";
 import {useSelector} from "react-redux";
@@ -16,9 +15,9 @@ export const Header: React.FC = () => {
 		<StyledHeader>
 			<nav className="header-nav">
 				<ul className="flex justify-evenly">
-					<li>{canEditDocuments && <Link to="/documents">EDYTOR</Link>}</li>
+                    {canEditDocuments && <li> <Link data-cy="documents-link" to="/documents">EDYTOR</Link></li>}
 					<li>
-						<Link to="/chat">CHATBOT</Link>
+						<Link data-cy="chatbot-link" to="/chat">CHATBOT</Link>
 					</li>
 				</ul>
 			</nav>

@@ -2,14 +2,12 @@ import {COLORS} from "assets/colors";
 import RegisterSecondPanelImage from "assets/images/RegisterSecondPanelImage.svg";
 import {CustomButton} from "components/CustomButton/CustomButton.component";
 import React, {FC, ReactElement, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import {CustomInput} from "@/components/CustomInput/CustomInput.component";
 import {ApiResponse} from "@/utils/axiosUtils/ApiResponse.dto";
 import {faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
 import {UserDTO} from "../AuthorizationPage.dto";
 import {AuthorizationPageService} from "../AuthorizationPage.service";
-import {validateIdenticalPasswords} from "../AuthotizationPage.utils";
 import {StyledRegisterPanal} from "./RegisterPanel.style";
 
 interface RegisterPanelProps {
@@ -21,33 +19,42 @@ interface RegisterPanelProps {
 }
 
 export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps): ReactElement => {
-	const navigate = useNavigate();
 	const [repeatedPassword, setRepeatedPassword] = useState<string>("");
 
+	const validateIdenticalPasswords = (password: string, confirmPassword: string): boolean => {
+		return password === confirmPassword && password.length > 0;
+	}
+
 	const onRegisterClickHandler = async () => {
+
 		const userDTO: UserDTO = {
 			email: props.userEmail,
 			password: props.userPassword,
 		};
 
+		if (!validateIdenticalPasswords(props.userPassword, repeatedPassword)) {
+			toast.error("Hasła nie są identyczne");
+			return;
+		}
+
 		const response: ApiResponse<any> = await AuthorizationPageService.registerUserRest(userDTO);
 
 		if (response.success) {
-			toast.success("Registration successful!");
+			toast.success("Zarejestrowano pomyślnie");
 			props.onChangePanelClickHandler();
 		} else {
-			toast.error(response.message);
+			toast.error("Nie udało się zarejestrować. Spróbuj ponownie");
 		}
 	};
 
 	const registerMainSection: ReactElement = (
 		<div className="flex flex-col w-1/2 h-full items-center m-auto">
 			<div className="flex flex-col w-full h-full items-center gap-y-12 justify-center">
-				<div className="flex justify-center text-BLACK text-xl font-extrabold text-justify font-extrabold font-roboto-serif">
+				<div className="flex justify-center text-BLACK text-extra_lg font-extrabold text-justify font-roboto-serif">
 					{`Stwórz Konto`}
 				</div>
 				<CustomInput
-					className="w-96 h-12"
+					className="w-8/12 h-12"
 					label="Email"
 					inputType="email"
 					icon={faEnvelope}
@@ -56,7 +63,7 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 					setValue={props.setUserEmail}
 				/>
 				<CustomInput
-					className="w-96 h-12"
+					className="w-8/12 h-12"
 					label="Hasło"
 					inputType="password"
 					icon={faLock}
@@ -65,11 +72,11 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 					setValue={props.setUserPassword}
 				/>
 				<CustomInput
-					className="w-96 h-12"
+					className="w-8/12 h-12"
 					label="Powtórz hasło"
 					inputType="password"
 					icon={faLock}
-					placeholder="Wpisz swoje hasło"
+					placeholder="Powtórz swoje hasło"
 					value={repeatedPassword}
 					setValue={setRepeatedPassword}
 				/>
@@ -77,8 +84,7 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 					buttonColor={COLORS.BLACK}
 					labelColor={COLORS.WHITE}
 					borderColor={COLORS.BLACK}
-					disabled={!validateIdenticalPasswords(props.userPassword, repeatedPassword)}
-					className="w-80 h-[3.25rem]"
+					className="w-8/12 h-[3.25rem]"
 					label="ZAREJESTRUJ SIĘ"
 					onClick={onRegisterClickHandler}
 					fontBold
@@ -89,19 +95,18 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 
 	const registerSecondSection: ReactElement = (
 		<div className="flex flex-col w-7/12 h-full items-center bg-TURQUOISE rounded-lg m-auto">
-			<div className="flex w-full text-extra_lg px-12 mt-[2rem]">{`LOGO`}</div>
-			<div className="flex flex-col w-full h-full text-BLACK items-center m-[-4rem] justify-center gap-y-8">
-				<div className="flex w-7/12 text-bg mx-auto font-semibold">
+			<div className="flex flex-col w-full h-full text-BLACK items-center justify-center gap-y-6">
+				<div className="flex w-9/12 text-bg mx-auto font-semibold">
 					{`Edytuj treści, dodawaj słowa kluczowe i skorzystaj z inteligentnego asystenta, aby ułatwić sobie pracę z ustawami.`}
 				</div>
-				<img className="text-BLACK w-1/2" src={RegisterSecondPanelImage} alt="RegisterSecondPanelImage" />
-				<div className="flex flex-col w-7/12 text-bg mx-auto items-center text-center font-semibold">
+				<img className="text-BLACK w-5/12" src={RegisterSecondPanelImage} alt="RegisterSecondPanelImage" />
+				<div className="flex flex-col w-8/12 text-bg mx-auto items-center text-center font-semibold">
 					<div>{`Masz już konto? Zaloguj się, aby rozpocząć pracę.`}</div>
 				</div>
 				<CustomButton
 					buttonColor={COLORS.TRANSPARENT}
 					labelColor={COLORS.BLACK}
-					className="w-80 h-[3.25rem]"
+					className="w-8/12 h-[3.25rem]"
 					label="ZALOGUJ SIĘ"
 					onClick={props.onChangePanelClickHandler}
 					fontBold

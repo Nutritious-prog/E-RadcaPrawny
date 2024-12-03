@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -35,26 +41,36 @@ public class SecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         logger.debug("SecurityConfig initialized.");
 
-        // Disable CSRF protection for stateless APIs
         httpSecurity
+                .cors(Customizer.withDefaults()) // Enable CORS
                 .csrf(AbstractHttpConfigurer::disable)
-                // Define which requests to authorize
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/authenticate", "api/v1/auth/register", "/api/v1/chatbot/start-chat", "/api/v1/legal-acts", "/api/v1/chatbot/send-message").permitAll() // Public endpoint
                         .anyRequest().authenticated() // All other endpoints require authentication
                 )
-                // Configure exception handling for unauthorized access
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthEntryPoint))
-                // Configure session management to be stateless
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        // Add custom filters in the correct order
+        // Add custom filters
         httpSecurity.addFilterBefore(loggingFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // Allow frontend origin
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")); // Allow these HTTP methods
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // Allow specific headers
+        configuration.setAllowCredentials(true); // Allow cookies if needed
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 

@@ -22,4 +22,17 @@ export const StyledMenu = styled.div`
 		position: relative;
 		mask-image: linear-gradient(to right, black 80%, transparent 100%);
 	}
+
+    .ant-menu-inline::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .ant-menu-inline::-webkit-scrollbar-thumb {
+        background-color: ${COLORS.DARK_TURQUOISE}; /* Kolor "kciuka" scrolla */
+        border-radius: 4px; /* Zaokrąglone rogi */
+    }
+
+    .ant-menu-inline::-webkit-scrollbar-track {
+        background-color: ${COLORS.TURQUOISE}; /* Kolor tła scrolla */
+    }
 `;
