@@ -6,7 +6,6 @@ const API_URL = "http://localhost:8080/api/v1/legal-acts";
 
 const getToken = (): string | null => {
     const state: RootState = store.getState();
-    console.log("token:", state.user.token);
     return state.user.token;
 };
 
@@ -66,8 +65,6 @@ export const DocumentEditorService = {
 
     addMultipleTagsToLegalAct: async (id: number, tags: {name: string}[]): Promise<ApiResponse<LegalActDTO>> => {
         const token = getToken();
-        const requestBody = JSON.stringify(tags);
-        console.log("Request Body:", requestBody);
         const response = await fetch(`${API_URL}/${id}/tags/multiple`, {
             method: "POST",
             headers: {

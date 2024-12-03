@@ -22,7 +22,6 @@ export const ActionsBar: React.FC<ActionsBarProps> = ({ tags, onSave, onTagChang
 
     const handleTagSelect = (label: string, checked: boolean) => {
         const nextSelectedTags = checked ? [...selectedTags, label] : selectedTags.filter((tag) => tag !== label);
-        console.log("nextSelectedTags", nextSelectedTags);
         setSelectedTags(nextSelectedTags);
         onTagChange(nextSelectedTags);
     };

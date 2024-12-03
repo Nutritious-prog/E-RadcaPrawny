@@ -48,14 +48,12 @@ export const DocumentEditor: FC = (): ReactElement => {
             if (legalActs.length > 0) {
                 setEditorContent(legalActs[0].textContent || "");
                 setSelectedTags(legalActs[0].legalActTags);
-                setSelectedActId(legalActs[0].id);
             }
         }
     };
 
     const handleMenuClick = ({key}: { key: string }) => {
         const selectedAct = legalActs.find((act) => act.id.toString() === key);
-        console.log("selectedAct", selectedAct);
         if (selectedAct) {
             setEditorContent(selectedAct.textContent || "");
             setSelectedTags(selectedAct.legalActTags);
@@ -74,7 +72,6 @@ export const DocumentEditor: FC = (): ReactElement => {
                 }) as LegalActTagDTO
         );
         setSelectedTags(updatedTags);
-        console.log("updatedTags", updatedTags);
     };
 
     const handleContentChange = (content: string) => {
@@ -97,7 +94,6 @@ export const DocumentEditor: FC = (): ReactElement => {
                         const updatedTags = selectedTags.map((tag) => ({
                             name: tag.tag.name
                         }));
-                        console.log("updatedTags", updatedTags);
                         const currentTags = legalActs.find((act) => act.id === selectedActId)!.legalActTags;
                         const currentTagNames = currentTags.map((tag) => tag.tag.name);
                         const newTagNames = updatedTags.map((tag) => tag.name);
@@ -109,8 +105,6 @@ export const DocumentEditor: FC = (): ReactElement => {
                             }
                         });
 
-                        console.log("Tags to add:", tagsToAdd);
-                        console.log("Tags to remove:", tagsToRemove);
                         if (tagsToRemove.length > 0) {
                             const removeResponse = await DocumentEditorService.removeMultipleTagsFromLegalAct(selectedActId, tagsToRemove);
                             if (removeResponse.success)
@@ -137,10 +131,6 @@ export const DocumentEditor: FC = (): ReactElement => {
             } catch (error) {
                 toast.error("Błąd podczas aktualizacji treści dokumentu");
             }
-
-
-
-
         }
     };
 
