@@ -58,19 +58,48 @@ public class LegalActInitializer implements CommandLineRunner {
         criminalTag = tagRepository.save(criminalTag);
         //LEGAL ACTS
         LegalAct educationLegalAct = LegalAct.builder()
-                .title("EDUCATION LEGAL ACT")
-                .textContent("LEGAL ACT CONTENT....")
+                .title("Ustawa o Systemie Oświaty")
+                .textContent("Jest to Ustawa o Systemie Oświaty. Reguluje zasady funkcjonowania systemu edukacji w Polsce. Zapewnia równy dostęp do edukacji dla wszystkich obywateli, niezależnie od ich statusu społecznego czy materialnego. Ustawa określa role i obowiązki nauczycieli, uczniów oraz placówek oświatowych, a także zasady finansowania i nadzoru nad systemem edukacji.")
                 .createdAt(new Date())
                 .build();
-        LegalAct criminalLegalAct = LegalAct.builder()
-                .title("CRIMINAL LEGAL ACT")
-                .textContent("CRIMINAL ACT CONTENT....")
+
+        LegalAct educationLegalActTwo = LegalAct.builder()
+                .title("Druga Ustawa o Systemie Oświaty")
+                .textContent("Jest to Druga Ustawa o Systemie Oświaty. Reguluje ona prawa i obowiązki ucznia, pokazuje jak powinien uczeń pracować oraz żyć w szkole.")
+                .createdAt(new Date())
+                .build();
+
+        LegalAct environmentalProtectionAct = LegalAct.builder()
+                .title("Ustawa o Ochronie Środowiska")
+                .textContent("Jest to Ustawa o Ochronie Środowiska. Koncentruje się na ochronie naturalnego środowiska Polski. Ustawa ustanawia wytyczne dotyczące kontroli zanieczyszczeń, ochrony zasobów naturalnych oraz promowania zrównoważonego rozwoju. Określa obowiązki przedsiębiorstw i obywateli w zakresie dbałości o środowisko oraz sankcje za ich naruszenie.")
+                .createdAt(new Date())
+                .build();
+
+        LegalAct laborCodeAct = LegalAct.builder()
+                .title("Kodeks Pracy")
+                .textContent("Jest to Kodeks Pracy. Reguluje prawa i obowiązki pracowników oraz pracodawców. Ustawa obejmuje kwestie związane z nawiązywaniem i rozwiązywaniem stosunku pracy, czasem pracy, wynagrodzeniem, urlopami oraz bezpieczeństwem i higieną pracy. Ma na celu zapewnienie ochrony praw pracowników oraz stabilności stosunków pracy.")
+                .createdAt(new Date())
+                .build();
+
+        LegalAct criminalCodeAct = LegalAct.builder()
+                .title("Kodeks Karny")
+                .textContent("Jest to Kodeks Karny. Definiuje czyny zabronione pod groźbą kary oraz określa sankcje karne za ich popełnienie. Ustawa zawiera przepisy ogólne dotyczące odpowiedzialności karnej, a także szczegółowe opisy przestępstw przeciwko życiu, zdrowiu, mieniu i innym dobrom chronionym prawem. Zapewnia ochronę porządku publicznego i bezpieczeństwa obywateli.")
+                .createdAt(new Date())
+                .build();
+
+        LegalAct civilCodeAct = LegalAct.builder()
+                .title("Kodeks Cywilny")
+                .textContent("Jest to Kodeks Cywilny. Reguluje stosunki cywilnoprawne między osobami fizycznymi i prawnymi. Ustawa obejmuje przepisy dotyczące własności i innych praw rzeczowych, zobowiązań, spadków oraz prawa rodzinnego. Stanowi podstawę dla umów cywilnoprawnych, określając zasady ich zawierania, wykonywania i rozwiązywania.")
                 .createdAt(new Date())
                 .build();
         educationLegalAct = legalActRepository.save(educationLegalAct);
-        criminalLegalAct = legalActRepository.save(criminalLegalAct);
+        environmentalProtectionAct = legalActRepository.save(environmentalProtectionAct);
+        laborCodeAct = legalActRepository.save(laborCodeAct);
+        criminalCodeAct = legalActRepository.save(criminalCodeAct);
+        civilCodeAct = legalActRepository.save(civilCodeAct);
+        educationLegalActTwo = legalActRepository.save(educationLegalActTwo);
         LegalActTag educationLegalActTag = new LegalActTag(educationLegalAct, educationTag, new Date());
-        LegalActTag criminalLegalActTag = new LegalActTag(criminalLegalAct, criminalTag, new Date());
+        LegalActTag criminalLegalActTag = new LegalActTag(criminalCodeAct, criminalTag, new Date());
         legalActTagRepository.save(educationLegalActTag);
         legalActTagRepository.save(criminalLegalActTag);
 

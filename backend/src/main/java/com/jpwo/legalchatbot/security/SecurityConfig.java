@@ -45,7 +45,7 @@ public class SecurityConfig  {
                 .cors(Customizer.withDefaults()) // Enable CORS
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/authenticate", "/api/v1/auth/register").permitAll() // Public endpoints
+                        .requestMatchers("/api/v1/auth/authenticate", "api/v1/auth/register", "/api/v1/chatbot/start-chat", "/api/v1/legal-acts", "/api/v1/chatbot/send-message").permitAll() // Public endpoint
                         .anyRequest().authenticated() // All other endpoints require authentication
                 )
                 .exceptionHandling(exception -> exception
