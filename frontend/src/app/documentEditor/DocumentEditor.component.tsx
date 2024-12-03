@@ -79,7 +79,6 @@ export const DocumentEditor: FC = (): ReactElement => {
 
     const handleContentChange = (content: string) => {
         setEditorContent(content);
-        console.log("content", content);
     };
 
     const handleSave = async () => {

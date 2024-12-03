@@ -6,17 +6,18 @@ export interface EditorViewProps {
     editorContent: string;
 }
 
-export const EditorView = forwardRef<
-    EditorViewProps,
-    { editorContent: string; onContentChange: (content: string) => void }
->((props, ref) => {
+export const EditorView = forwardRef<EditorViewProps, {
+    editorContent: string;
+    onContentChange: (content: string) => void;
+}>((props, ref) => {
     const editorRef = useRef<HTMLDivElement>(null);
 
     useImperativeHandle(ref, () => ({
-        applyFormatting(command) {
+        applyFormatting: (command: string) => {
             document.execCommand(command, false);
             editorRef.current?.focus();
         },
+        editorContent: editorRef.current?.innerHTML || "",
     }));
 
     useEffect(() => {
@@ -33,11 +34,9 @@ export const EditorView = forwardRef<
     return (
         <StyledEditorView
             ref={editorRef}
-            contentEditable={true}
-            suppressContentEditableWarning={true}
+            contentEditable
+            suppressContentEditableWarning
             onInput={handleInput}
-        >
-            {props.editorContent}
-        </StyledEditorView>
+        />
     );
 });
