@@ -7,5 +7,5 @@ export const StyledEditorView = styled.div`
 	height: 90%;
 	outline: none;
 	overflow-y: auto;
-    border: dashed 0.0625rem ${COLORS.BLACK}
+    border: dashed 0.0625rem ${COLORS.BORDER}
 `;

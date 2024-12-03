@@ -33,17 +33,17 @@ export const RegisterPanel: FC<RegisterPanelProps> = (props: RegisterPanelProps)
 		};
 
 		if (!validateIdenticalPasswords(props.userPassword, repeatedPassword)) {
-			toast.error("Validation failed");
+			toast.error("Hasła nie są identyczne");
 			return;
 		}
 
 		const response: ApiResponse<any> = await AuthorizationPageService.registerUserRest(userDTO);
 
 		if (response.success) {
-			toast.success("Registration successful!");
+			toast.success("Zarejestrowano pomyślnie");
 			props.onChangePanelClickHandler();
 		} else {
-			toast.error(response.message);
+			toast.error("Nie udało się zarejestrować. Spróbuj ponownie");
 		}
 	};
 

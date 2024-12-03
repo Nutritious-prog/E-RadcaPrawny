@@ -63,7 +63,7 @@ export const DocumentEditorService = {
         return response.json();
     },
 
-    addMultipleTagsToLegalAct: async (id: number, tags: {name: string}[]): Promise<ApiResponse<LegalActDTO>> => {
+    addMultipleTagsToLegalAct: async (id: number, tags: { name: string }[]): Promise<ApiResponse<LegalActDTO>> => {
         const token = getToken();
         const response = await fetch(`${API_URL}/${id}/tags/multiple`, {
             method: "POST",

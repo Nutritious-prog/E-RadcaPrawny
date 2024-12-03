@@ -35,11 +35,11 @@ export const LoginPanel: FC<LoginPanelProps> = (props: LoginPanelProps): ReactEl
 			await AuthorizationPageService.createAuthenticationTokenRest(loginRequestDTO);
 
 		if (apiResponse.success) {
-			toast.success(apiResponse.message);
+			toast.success("Zalogowano pomyślnie");
 			dispatch(setUser({role: apiResponse.response.role, token: apiResponse.response.token}));
 			navigate("/chat");
 		} else {
-			toast.error(apiResponse.message);
+			toast.error("Nie udało się zalogować. Spróbuj ponownie");
 		}
 	};
 

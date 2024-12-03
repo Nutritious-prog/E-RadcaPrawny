@@ -1,20 +1,20 @@
-import {Modal, Upload} from "antd";
-import {RootState} from "app/redux/store";
-import {UserRole} from "app/redux/userRole/UserRole.type";
-import {ActionsBar} from "components/DocumentEditor/ActionsBar/ActionsBar.component";
-import {EditorView, EditorViewProps} from "components/DocumentEditor/EditorView/EditorView.component";
-import {TextTools} from "components/DocumentEditor/TextTools/TextTools.component";
-import {Header} from "components/Header/Header.component";
-import {DocumentItem, MenuItem} from "components/Sidebar/Menu/Menu.utils";
-import {Sidebar} from "components/Sidebar/Sidebar.component";
-import {SidebarType} from "components/Sidebar/Sidebar.utils";
-import React, {FC, ReactElement, useEffect, useRef, useState} from "react";
-import {useSelector} from "react-redux";
-import {StyledDocumentEditor} from "./DocumentEditor.style";
-import {DocumentEditorService} from "./DocumentEditor.service";
-import {FormOutlined} from "@ant-design/icons";
-import {LegalActContentDTO, LegalActDTO, LegalActTagDTO} from "./DocumentEditor.dto";
-import {toast} from "react-toastify";
+import { Modal, Upload } from "antd";
+import { RootState } from "app/redux/store";
+import { UserRole } from "app/redux/userRole/UserRole.type";
+import { ActionsBar } from "components/DocumentEditor/ActionsBar/ActionsBar.component";
+import { EditorView, EditorViewProps } from "components/DocumentEditor/EditorView/EditorView.component";
+import { TextTools } from "components/DocumentEditor/TextTools/TextTools.component";
+import { Header } from "components/Header/Header.component";
+import { DocumentItem, MenuItem } from "components/Sidebar/Menu/Menu.utils";
+import { Sidebar } from "components/Sidebar/Sidebar.component";
+import { SidebarType } from "components/Sidebar/Sidebar.utils";
+import React, { FC, ReactElement, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { StyledDocumentEditor } from "./DocumentEditor.style";
+import { DocumentEditorService } from "./DocumentEditor.service";
+import { FormOutlined } from "@ant-design/icons";
+import { LegalActContentDTO, LegalActDTO, LegalActTagDTO } from "./DocumentEditor.dto";
+import { toast } from "react-toastify";
 
 export const DocumentEditor: FC = (): ReactElement => {
     const editorViewRef = useRef<EditorViewProps>(null);
@@ -64,8 +64,7 @@ export const DocumentEditor: FC = (): ReactElement => {
         }
     };
 
-
-    const handleMenuClick = ({key}: { key: string }) => {
+    const handleMenuClick = ({ key }: { key: string }) => {
         const selectedAct = legalActs.find((act) => act.id.toString() === key);
         if (selectedAct) {
             setEditorContent(selectedAct.textContent || "");
@@ -81,7 +80,7 @@ export const DocumentEditor: FC = (): ReactElement => {
                     tag: {
                         id: selectedActId,
                         name: tagName,
-                    }
+                    },
                 }) as LegalActTagDTO
         );
         setSelectedTags(updatedTags);
@@ -146,12 +145,12 @@ export const DocumentEditor: FC = (): ReactElement => {
     return (
         <StyledDocumentEditor>
             <div className="w-3/12 h-full">
-                <Sidebar type={SidebarType.DOCUMENTS} menuItems={documents} onMainMenuClickHandler={handleMenuClick}/>
+                <Sidebar type={SidebarType.DOCUMENTS} menuItems={documents} onMainMenuClickHandler={handleMenuClick} />
             </div>
             <div className="w-9/12 flex flex-col">
-                <Header/>
+                <Header />
                 <div className="w-full flex-grow flex justify-end h-full">
-                    <div className="w-8/12 h-[90%]">
+                    <div className="w-8/12 h-full">
                         <EditorView
                             ref={editorViewRef}
                             editorContent={editorContent}
@@ -159,7 +158,12 @@ export const DocumentEditor: FC = (): ReactElement => {
                         />
                     </div>
                     <div className="min-w-[33.3%] w-fit h-full">
-                        <ActionsBar tags={selectedTags} onSave={handleSave} onTagChange={handleTagChange}/>
+                        <ActionsBar
+                            tags={selectedTags}
+                            onSave={handleSave}
+                            onTagChange={handleTagChange}
+                            selectedActId={selectedActId}
+                        />
                     </div>
                 </div>
             </div>
@@ -172,7 +176,7 @@ export const DocumentEditor: FC = (): ReactElement => {
                     footer={null}
                     centered={true}
                 >
-                    <Upload/>
+                    <Upload />
                 </Modal>
             )}
         </StyledDocumentEditor>
