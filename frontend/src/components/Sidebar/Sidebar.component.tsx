@@ -29,14 +29,14 @@ export const Sidebar: React.FC<SidebarProps> = (props: SidebarProps): ReactEleme
                 {props.type === SidebarType.DOCUMENTS ? (
                     <img
                         src={DocumentEditorImage}
-                        alt="Dokument wychodzący z laptopa"
+                        alt="Document Image"
                         height="100px"
                         className="!mt-auto z-10"
                     />
                 ) : (
                     <img
                         src={ChatImage}
-                        alt="Chat"
+                        alt="Chat Image"
                         height="100px"
                         className="!mt-auto z-10"
                     />
