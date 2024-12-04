@@ -46,85 +46,85 @@ public class LegalActInitializer implements CommandLineRunner {
 
         // todo remove this code when starting data is no longer required and scraper is fully integrated
         //TAGS
-        Tag educationTag = Tag.builder()
-                .name("EDUCATION")
-                .createdAt(new Date())
-                .build();
-        Tag criminalTag = Tag.builder()
-                .name("CRIMINAL")
-                .createdAt(new Date())
-                .build();
-        educationTag = tagRepository.save(educationTag);
-        criminalTag = tagRepository.save(criminalTag);
-        //LEGAL ACTS
-        LegalAct educationLegalAct = LegalAct.builder()
-                .title("Ustawa o Systemie Oświaty")
-                .textContent("Jest to Ustawa o Systemie Oświaty. Reguluje zasady funkcjonowania systemu edukacji w Polsce. Zapewnia równy dostęp do edukacji dla wszystkich obywateli, niezależnie od ich statusu społecznego czy materialnego. Ustawa określa role i obowiązki nauczycieli, uczniów oraz placówek oświatowych, a także zasady finansowania i nadzoru nad systemem edukacji.")
-                .createdAt(new Date())
-                .build();
-
-        LegalAct educationLegalActTwo = LegalAct.builder()
-                .title("Druga Ustawa o Systemie Oświaty")
-                .textContent("Jest to Druga Ustawa o Systemie Oświaty. Reguluje ona prawa i obowiązki ucznia, pokazuje jak powinien uczeń pracować oraz żyć w szkole.")
-                .createdAt(new Date())
-                .build();
-
-        LegalAct environmentalProtectionAct = LegalAct.builder()
-                .title("Ustawa o Ochronie Środowiska")
-                .textContent("Jest to Ustawa o Ochronie Środowiska. Koncentruje się na ochronie naturalnego środowiska Polski. Ustawa ustanawia wytyczne dotyczące kontroli zanieczyszczeń, ochrony zasobów naturalnych oraz promowania zrównoważonego rozwoju. Określa obowiązki przedsiębiorstw i obywateli w zakresie dbałości o środowisko oraz sankcje za ich naruszenie.")
-                .createdAt(new Date())
-                .build();
-
-        LegalAct laborCodeAct = LegalAct.builder()
-                .title("Kodeks Pracy")
-                .textContent("Jest to Kodeks Pracy. Reguluje prawa i obowiązki pracowników oraz pracodawców. Ustawa obejmuje kwestie związane z nawiązywaniem i rozwiązywaniem stosunku pracy, czasem pracy, wynagrodzeniem, urlopami oraz bezpieczeństwem i higieną pracy. Ma na celu zapewnienie ochrony praw pracowników oraz stabilności stosunków pracy.")
-                .createdAt(new Date())
-                .build();
-
-        LegalAct criminalCodeAct = LegalAct.builder()
-                .title("Kodeks Karny")
-                .textContent("Jest to Kodeks Karny. Definiuje czyny zabronione pod groźbą kary oraz określa sankcje karne za ich popełnienie. Ustawa zawiera przepisy ogólne dotyczące odpowiedzialności karnej, a także szczegółowe opisy przestępstw przeciwko życiu, zdrowiu, mieniu i innym dobrom chronionym prawem. Zapewnia ochronę porządku publicznego i bezpieczeństwa obywateli.")
-                .createdAt(new Date())
-                .build();
-
-        LegalAct civilCodeAct = LegalAct.builder()
-                .title("Kodeks Cywilny")
-                .textContent("Jest to Kodeks Cywilny. Reguluje stosunki cywilnoprawne między osobami fizycznymi i prawnymi. Ustawa obejmuje przepisy dotyczące własności i innych praw rzeczowych, zobowiązań, spadków oraz prawa rodzinnego. Stanowi podstawę dla umów cywilnoprawnych, określając zasady ich zawierania, wykonywania i rozwiązywania.")
-                .createdAt(new Date())
-                .build();
-        educationLegalAct = legalActRepository.save(educationLegalAct);
-        environmentalProtectionAct = legalActRepository.save(environmentalProtectionAct);
-        laborCodeAct = legalActRepository.save(laborCodeAct);
-        criminalCodeAct = legalActRepository.save(criminalCodeAct);
-        civilCodeAct = legalActRepository.save(civilCodeAct);
-        educationLegalActTwo = legalActRepository.save(educationLegalActTwo);
-        LegalActTag educationLegalActTag = new LegalActTag(educationLegalAct, educationTag, new Date());
-        LegalActTag criminalLegalActTag = new LegalActTag(criminalCodeAct, criminalTag, new Date());
-        legalActTagRepository.save(educationLegalActTag);
-        legalActTagRepository.save(criminalLegalActTag);
-
-        // TEST USERS
-        if (userRepository.count() == 0) {
-            User admin = new User();
-            admin.setEmail("admin@test.com");
-            admin.setPassword(passwordEncoder.encode("12345678"));
-            admin.setRole(SystemRole.ROLE_ADMIN);
-
-            User editor = new User();
-            editor.setEmail("editor@test.com");
-            editor.setPassword(passwordEncoder.encode("12345678"));
-            editor.setRole(SystemRole.ROLE_EDITOR);
-
-            userRepository.save(admin);
-            userRepository.save(editor);
-        }
+//        Tag educationTag = Tag.builder()
+//                .name("EDUCATION")
+//                .createdAt(new Date())
+//                .build();
+//        Tag criminalTag = Tag.builder()
+//                .name("CRIMINAL")
+//                .createdAt(new Date())
+//                .build();
+//        educationTag = tagRepository.save(educationTag);
+//        criminalTag = tagRepository.save(criminalTag);
+//        //LEGAL ACTS
+//        LegalAct educationLegalAct = LegalAct.builder()
+//                .title("Ustawa o Systemie Oświaty")
+//                .textContent("Jest to Ustawa o Systemie Oświaty. Reguluje zasady funkcjonowania systemu edukacji w Polsce. Zapewnia równy dostęp do edukacji dla wszystkich obywateli, niezależnie od ich statusu społecznego czy materialnego. Ustawa określa role i obowiązki nauczycieli, uczniów oraz placówek oświatowych, a także zasady finansowania i nadzoru nad systemem edukacji.")
+//                .createdAt(new Date())
+//                .build();
+//
+//        LegalAct educationLegalActTwo = LegalAct.builder()
+//                .title("Druga Ustawa o Systemie Oświaty")
+//                .textContent("Jest to Druga Ustawa o Systemie Oświaty. Reguluje ona prawa i obowiązki ucznia, pokazuje jak powinien uczeń pracować oraz żyć w szkole.")
+//                .createdAt(new Date())
+//                .build();
+//
+//        LegalAct environmentalProtectionAct = LegalAct.builder()
+//                .title("Ustawa o Ochronie Środowiska")
+//                .textContent("Jest to Ustawa o Ochronie Środowiska. Koncentruje się na ochronie naturalnego środowiska Polski. Ustawa ustanawia wytyczne dotyczące kontroli zanieczyszczeń, ochrony zasobów naturalnych oraz promowania zrównoważonego rozwoju. Określa obowiązki przedsiębiorstw i obywateli w zakresie dbałości o środowisko oraz sankcje za ich naruszenie.")
+//                .createdAt(new Date())
+//                .build();
+//
+//        LegalAct laborCodeAct = LegalAct.builder()
+//                .title("Kodeks Pracy")
+//                .textContent("Jest to Kodeks Pracy. Reguluje prawa i obowiązki pracowników oraz pracodawców. Ustawa obejmuje kwestie związane z nawiązywaniem i rozwiązywaniem stosunku pracy, czasem pracy, wynagrodzeniem, urlopami oraz bezpieczeństwem i higieną pracy. Ma na celu zapewnienie ochrony praw pracowników oraz stabilności stosunków pracy.")
+//                .createdAt(new Date())
+//                .build();
+//
+//        LegalAct criminalCodeAct = LegalAct.builder()
+//                .title("Kodeks Karny")
+//                .textContent("Jest to Kodeks Karny. Definiuje czyny zabronione pod groźbą kary oraz określa sankcje karne za ich popełnienie. Ustawa zawiera przepisy ogólne dotyczące odpowiedzialności karnej, a także szczegółowe opisy przestępstw przeciwko życiu, zdrowiu, mieniu i innym dobrom chronionym prawem. Zapewnia ochronę porządku publicznego i bezpieczeństwa obywateli.")
+//                .createdAt(new Date())
+//                .build();
+//
+//        LegalAct civilCodeAct = LegalAct.builder()
+//                .title("Kodeks Cywilny")
+//                .textContent("Jest to Kodeks Cywilny. Reguluje stosunki cywilnoprawne między osobami fizycznymi i prawnymi. Ustawa obejmuje przepisy dotyczące własności i innych praw rzeczowych, zobowiązań, spadków oraz prawa rodzinnego. Stanowi podstawę dla umów cywilnoprawnych, określając zasady ich zawierania, wykonywania i rozwiązywania.")
+//                .createdAt(new Date())
+//                .build();
+//        educationLegalAct = legalActRepository.save(educationLegalAct);
+//        environmentalProtectionAct = legalActRepository.save(environmentalProtectionAct);
+//        laborCodeAct = legalActRepository.save(laborCodeAct);
+//        criminalCodeAct = legalActRepository.save(criminalCodeAct);
+//        civilCodeAct = legalActRepository.save(civilCodeAct);
+//        educationLegalActTwo = legalActRepository.save(educationLegalActTwo);
+//        LegalActTag educationLegalActTag = new LegalActTag(educationLegalAct, educationTag, new Date());
+//        LegalActTag criminalLegalActTag = new LegalActTag(criminalCodeAct, criminalTag, new Date());
+//        legalActTagRepository.save(educationLegalActTag);
+//        legalActTagRepository.save(criminalLegalActTag);
+//
+//        // TEST USERS
+//        if (userRepository.count() == 0) {
+//            User admin = new User();
+//            admin.setEmail("admin@test.com");
+//            admin.setPassword(passwordEncoder.encode("12345678"));
+//            admin.setRole(SystemRole.ROLE_ADMIN);
+//
+//            User editor = new User();
+//            editor.setEmail("editor@test.com");
+//            editor.setPassword(passwordEncoder.encode("12345678"));
+//            editor.setRole(SystemRole.ROLE_EDITOR);
+//
+//            userRepository.save(admin);
+//            userRepository.save(editor);
+//        }
 
 
 
         // todo keep only this code when scraper integration is fully finished
-        if (legalActRepository.count() == 0) {
+//        if (legalActRepository.count() == 0) {
             populateDatabaseFromExtractedTextFiles();
-        }
+//        }
     }
 
     private void populateDatabaseFromExtractedTextFiles() {
