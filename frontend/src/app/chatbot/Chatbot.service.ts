@@ -10,7 +10,7 @@ const getToken = (): string | null => {
 };
 
 export const ChatbotService = {
-    startChat: async (): Promise<ApiResponse<void>> => {
+    startChat: async (): Promise<void> => {
         const token = getToken();
         const response = await fetch(`${API_URL}/start-chat`, {
             method: "POST",
@@ -19,7 +19,6 @@ export const ChatbotService = {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return response.json();
     },
 
     sendMessage: async (message: string): Promise<ApiResponse<SendMessageResponseDTO>> => {
