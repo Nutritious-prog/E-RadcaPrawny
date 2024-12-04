@@ -6,6 +6,7 @@ import {SidebarType} from "components/Sidebar/Sidebar.utils";
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {StyledChatbot} from "./Chatbot.style";
 import {ChatBox} from "./chatBox/ChatBox.component";
+import { ChatbotService } from "./Chatbot.service";
 
 export const Chatbot: FC = (): ReactElement => {
 	const [previusConversations, setPreviusConversations] = useState<ChatItem[]>([]);
@@ -22,10 +23,18 @@ export const Chatbot: FC = (): ReactElement => {
 		setPreviusConversations(data);
 	};
 
-	const handleMenuClick = ({key}: {key: string}) => {
-		if (key === "1") {
-		}
-	};
+	const startChatSession = async () => {
+        try {
+            await ChatbotService.startChat();
+        } catch (error) {
+            console.error("Failed to start chat session:", error);
+        }
+    };
+
+	// const handleMenuClick = ({key}: {key: string}) => {
+	// 	if (key === "1") {
+	// 	}
+	// };
 
 	return (
 		<StyledChatbot>
@@ -33,7 +42,7 @@ export const Chatbot: FC = (): ReactElement => {
 				<Sidebar
 					type={SidebarType.CHAT}
 					menuItems={previusConversations}
-					onMainMenuClickHandler={handleMenuClick}
+					// onMainMenuClickHandler={handleMenuClick}
 				/>
 			</div>
 			<div className="w-9/12 flex flex-col">

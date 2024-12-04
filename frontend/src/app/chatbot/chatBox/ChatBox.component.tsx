@@ -11,6 +11,7 @@ import {
 	TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import {StyledChatbox} from "./ChatBox.style";
+import { ChatbotService } from "../Chatbot.service";
 
 interface ChatBoxProps {}
 
@@ -18,11 +19,18 @@ export const ChatBox: FC<ChatBoxProps> = (props: ChatBoxProps): ReactElement => 
 	const [msgInputValue, setMsgInputValue] = useState<string>("");
 	const [messages, setMessages] = useState<MessageModel[]>([]);
 
-	const onSendMessageHandler = (msg: string) => {
-		setMessages((prev) => [...prev, {message: msg, direction: "outgoing", position: "last"}]);
-		setMsgInputValue("");
-		onReceiveMessageHandler("I'm sorry, I'm just a demo bot. I don't understand what you're saying.");
-	};
+	const onSendMessageHandler = async (msg: string) => {
+        setMessages((prev) => [...prev, {message: msg, direction: "outgoing", position: "last"}]);
+        setMsgInputValue("");
+
+        try {
+            const response = await ChatbotService.sendMessage(msg);
+			onReceiveMessageHandler(response.message);
+        } catch (error) {
+            console.error("Failed to send message:", error);
+            onReceiveMessageHandler("Failed to send message.");
+        }
+    };
 
 	const onReceiveMessageHandler = (msg: string) => {
 		setMessages((prev) => [...prev, {message: msg, direction: "incoming", position: "last"}]);
