@@ -1,6 +1,4 @@
 import {Header} from "components/Header/Header.component";
-import {ChatItem, mapIcon} from "components/Sidebar/Menu/Menu.utils";
-import {mockChatResponse} from "components/Sidebar/Menu/mockResponses";
 import {Sidebar} from "components/Sidebar/Sidebar.component";
 import {SidebarType} from "components/Sidebar/Sidebar.utils";
 import React, {FC, ReactElement, useEffect, useState} from "react";
@@ -9,20 +7,6 @@ import {ChatBox} from "./chatBox/ChatBox.component";
 import { ChatbotService } from "./Chatbot.service";
 
 export const Chatbot: FC = (): ReactElement => {
-	const [previusConversations, setPreviusConversations] = useState<ChatItem[]>([]);
-
-	useEffect(() => {
-		fetchConversations();
-	}, []);
-
-	const fetchConversations = async () => {
-		const data: ChatItem[] = mockChatResponse.map((item) => ({
-			...item,
-			icon: mapIcon(item.icon),
-		}));
-		setPreviusConversations(data);
-	};
-
 	const startChatSession = async () => {
         try {
             await ChatbotService.startChat();
@@ -31,18 +15,15 @@ export const Chatbot: FC = (): ReactElement => {
         }
     };
 
-	// const handleMenuClick = ({key}: {key: string}) => {
-	// 	if (key === "1") {
-	// 	}
-	// };
+	useEffect(() => {
+        startChatSession();
+    }, []);
 
 	return (
 		<StyledChatbot>
 			<div className="w-3/12 h-full">
 				<Sidebar
 					type={SidebarType.CHAT}
-					menuItems={previusConversations}
-					// onMainMenuClickHandler={handleMenuClick}
 				/>
 			</div>
 			<div className="w-9/12 flex flex-col">

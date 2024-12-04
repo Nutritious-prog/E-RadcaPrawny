@@ -1,5 +1,5 @@
 import { ApiResponse } from "@/utils/axiosUtils/ApiResponse.dto";
-import { StartChatDTO, SendMessageRequestDTO, SendMessageResponseDTO } from "./Chatbot.dto";
+import { SendMessageRequestDTO, SendMessageResponseDTO } from "./Chatbot.dto";
 import store, { RootState } from "app/redux/store";
 
 const API_URL = "http://localhost:8080/api/v1/chatbot";
