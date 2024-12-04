@@ -6,10 +6,12 @@ describe("Register functionality", () => {
     });
 
     it("Should successfully register and redirect to login page", () => {
+        const randomEmail = `user${Date.now()}@mail.com`;
+
         cy.contains('div.label-container', 'Email')
             .parent() // przejście do elementu nadrzędnego
             .find('input') // znalezienie inputu w ramach nadrzędnego elementu
-            .type('mail@mail.com');
+            .type(randomEmail);
 
 
         cy.contains('div.label-container', 'Hasło')
