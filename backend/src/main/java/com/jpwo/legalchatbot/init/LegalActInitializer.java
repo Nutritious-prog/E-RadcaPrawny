@@ -103,21 +103,21 @@ public class LegalActInitializer implements CommandLineRunner {
 //        legalActTagRepository.save(educationLegalActTag);
 //        legalActTagRepository.save(criminalLegalActTag);
 //
-//        // TEST USERS
-//        if (userRepository.count() == 0) {
-//            User admin = new User();
-//            admin.setEmail("admin@test.com");
-//            admin.setPassword(passwordEncoder.encode("12345678"));
-//            admin.setRole(SystemRole.ROLE_ADMIN);
-//
-//            User editor = new User();
-//            editor.setEmail("editor@test.com");
-//            editor.setPassword(passwordEncoder.encode("12345678"));
-//            editor.setRole(SystemRole.ROLE_EDITOR);
-//
-//            userRepository.save(admin);
-//            userRepository.save(editor);
-//        }
+        // TEST USERS
+        if (userRepository.count() == 0) {
+            User admin = new User();
+            admin.setEmail("admin@test.com");
+            admin.setPassword(passwordEncoder.encode("12345678"));
+            admin.setRole(SystemRole.ROLE_ADMIN);
+
+            User editor = new User();
+            editor.setEmail("editor@test.com");
+            editor.setPassword(passwordEncoder.encode("12345678"));
+            editor.setRole(SystemRole.ROLE_EDITOR);
+
+            userRepository.save(admin);
+            userRepository.save(editor);
+        }
 
 
 
