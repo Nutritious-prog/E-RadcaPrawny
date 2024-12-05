@@ -28,7 +28,7 @@ public class LegalActInitializer implements CommandLineRunner {
     private final LegalActTagRepository legalActTagRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private static final String TEXT_FILES_PATH = "C:\\Users\\szymon.wydmuch\\OneDrive - Sollers Consulting\\Desktop\\Radca Prawny\\E-RadcaPrawny\\scraper\\extracted_txt";
+    private static final String TEXT_FILES_PATH = "D:\E-RadcaPrawny\scraper\extracted_txt";
     private final UserRepository userRepository;
 
     @Autowired
