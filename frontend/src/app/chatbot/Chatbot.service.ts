@@ -22,7 +22,7 @@ export const ChatbotService = {
         return response.json();
     },
 
-    sendMessage: async (message: string): Promise<ApiResponse<SendMessageResponseDTO>> => {
+    sendMessage: async (message: string): Promise<ApiResponse<string>> => {
         const token = getToken();
         const request: SendMessageRequestDTO = { message };
         const response = await fetch(`${API_URL}/send-message`, {
