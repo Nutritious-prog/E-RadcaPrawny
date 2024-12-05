@@ -1,5 +1,4 @@
-import {Content} from "antd/es/layout/layout";
-import React, {FC, ReactElement, useState} from "react";
+import React, {FC, ReactElement, useEffect, useState} from "react";
 import {
 	Avatar,
 	ChatContainer,
@@ -11,18 +10,27 @@ import {
 	TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import {StyledChatbox} from "./ChatBox.style";
+import { ChatbotService } from "../Chatbot.service";
 
-interface ChatBoxProps {}
-
-export const ChatBox: FC<ChatBoxProps> = (props: ChatBoxProps): ReactElement => {
+export const ChatBox: FC = (): ReactElement => {
 	const [msgInputValue, setMsgInputValue] = useState<string>("");
 	const [messages, setMessages] = useState<MessageModel[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const onSendMessageHandler = (msg: string) => {
-		setMessages((prev) => [...prev, {message: msg, direction: "outgoing", position: "last"}]);
-		setMsgInputValue("");
-		onReceiveMessageHandler("I'm sorry, I'm just a demo bot. I don't understand what you're saying.");
-	};
+	const onSendMessageHandler = async (msg: string) => {
+        setMessages((prev) => [...prev, {message: msg, direction: "outgoing", position: "last"}]);
+        setMsgInputValue("");
+
+        setIsLoading(true);
+        try {
+            const chatResponse = await ChatbotService.sendMessage(msg);
+            onReceiveMessageHandler(chatResponse.response);
+        } catch (error) {
+            onReceiveMessageHandler("Failed to send message.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
 	const onReceiveMessageHandler = (msg: string) => {
 		setMessages((prev) => [...prev, {message: msg, direction: "incoming", position: "last"}]);
@@ -41,15 +49,19 @@ export const ChatBox: FC<ChatBoxProps> = (props: ChatBoxProps): ReactElement => 
 				<MessageList
 					scrollBehavior="auto"
 					autoScrollToBottom
-					typingIndicator={<TypingIndicator content="E-Radca Prawny" />}>
+					typingIndicator={isLoading && <TypingIndicator content="E-Radca Prawny" />}>
 					{messages.map((m, i) => (
 						<Message key={i} model={m} />
 					))}
 				</MessageList>
 				<MessageInput
-					placeholder="Type message here..."
+					placeholder="Zadaj pytanie..."
 					onSend={() => onSendMessageHandler(msgInputValue)}
 					onChange={setMsgInputValue}
+                    onPaste={(event) => {
+                        event.preventDefault();
+                        setMsgInputValue(event.clipboardData.getData("text"));
+                    }}
 					value={msgInputValue}
 					attachButton={false}
 				/>

@@ -2,16 +2,17 @@ import { COLORS } from "assets/colors";
 import { styled } from "styled-components";
 
 export const StyledHeader = styled.header`
-    height: 10vh;
+    height: 9vh;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
     background-color: ${COLORS.WHITE};
     padding: 2rem;
+    border-bottom: 0.125rem solid;
 
     .header-nav {
-        width:  100%;
+        width: 95%;
         font-family: Poppins, sans-serif;
         font-weight: 600;
         font-size: 1.4rem;
